@@ -1,5 +1,6 @@
 package repository.dao;
 
+import entity.Book;
 import entity.User;
 
 import java.util.List;
@@ -15,5 +16,10 @@ public interface UserDao {
 
     Optional<User> checkUserPrentOrNot(String email);
 
+    Optional<User> fetchUserByEmail(String email) throws Exception;
+
     User removeAdmin(String email) throws Exception;
+
+    List<Book> userBorrowedBook(String email) throws Exception;
+
 }

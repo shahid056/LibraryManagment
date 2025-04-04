@@ -1,9 +1,9 @@
-package server;
+package services;
 
 import entity.User;
 import utils.Response;
 
-public interface AuthenticationServices {
+public interface AuthenticationService {
 
     Response userRegistration(User user);
 

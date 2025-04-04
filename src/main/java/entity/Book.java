@@ -8,6 +8,7 @@ import utils.RandomID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -46,6 +47,8 @@ public class Book {
         return srNo;
     }
 
+
+
     public static class BookBuilder {
         private String name;
         private String author;
@@ -78,5 +81,17 @@ public class Book {
         public Book build() {
             return new Book(this);
         }
+    }
+
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Book book)) return false;
+        return Objects.equals(name, book.name) && Objects.equals(author, book.author) && category == book.category;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, author, category);
     }
 }

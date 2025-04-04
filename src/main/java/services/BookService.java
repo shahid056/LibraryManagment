@@ -1,17 +1,19 @@
-package server;
+package services;
 
 import entity.Book;
-import entity.User;
 import utils.Response;
+
+import java.util.List;
 
 public interface BookService {
     Response addBook(Book book);
 
-    Response deleteBook(String srNo, int noOfCopy);
+    Response deleteBook(String srNo, int noOfCopy,boolean deleteAllCopy);
 
     Response updateBook(Book book);
 
-    void displayBook(User user);
+    List<Book> fetchBooks();
 
     Response getBookById(String bookID);
+
 }

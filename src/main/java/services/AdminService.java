@@ -1,15 +1,12 @@
-package server;
+package services;
 
 import entity.User;
 import utils.Response;
 
-public interface UserServices {
-
-    void updateUser(User user);
-
-    void fetchUser();
-
+public interface AdminService {
     Response addUserByAdmin(User user);
 
     Response removeAdmin(String email);
+
+    Response fetchUser();
 }

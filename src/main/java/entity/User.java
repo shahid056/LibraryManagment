@@ -36,8 +36,8 @@ public class User {
         return borrowedBooks.add(book);
     }
 
-
     public static class UserBuilder {
+        private String userId;
         private String name;
         private String email;
         private String password;
@@ -46,6 +46,10 @@ public class User {
         public UserBuilder() {
         }
 
+        public UserBuilder setUserId(String userId){
+            this.userId = userId;
+            return this;
+        }
         public UserBuilder setName(String name) {
             this.name = name;
             return this;
@@ -77,13 +81,13 @@ public class User {
         StringBuilder table = new StringBuilder();
 
         table.append(String.format("| %-20s | %-30s | %-15s | %-10s | %-10s  |\n",
-                "Name", "Email", "Role", "Books", "Date of Join"));
+                "Name", "Email", "Role",(this.getRole().toString().equalsIgnoreCase("user")?"Books":" "), "Date of Joining"));
 
         table.append("|------------|----------------------|------------------------------|-----------------|------------|-----------\n");
 
-        table.append(String.format("| %-20s | %-30s |  %-10s | %-10s | %-15s |\n",
+        table.append(String.format("| %-20s | %-30s | %-15s | %-10s | %-10s  |\n",
                 name, email, role != null ? role.toString() : "N/A",
-                borrowedBooks != null ? borrowedBooks.size() : 0,
+                (this.getRole().toString().equalsIgnoreCase("user")?borrowedBooks != null ? borrowedBooks.size() : 0:" "),
                 dateOfJoin != null ? dateOfJoin.toString() : "N/A"));
 
         return table.toString();

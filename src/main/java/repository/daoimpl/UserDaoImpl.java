@@ -1,40 +1,31 @@
 package repository.daoimpl;
 
+import entity.Book;
 import enums.Role;
 import entity.User;
 import repository.dao.UserDao;
 
 import java.util.*;
 
+
 public class UserDaoImpl implements UserDao {
 
     private Map<String, User> usersDb =new HashMap<>();
     private static final String adminEmail = "admin@gmail.com";
     private static final String adminPassword = "1234";
-    private static UserDaoImpl userDao;
 
-
-    private UserDaoImpl(){
-        userDBinitialize();
-    }
-
-    public static UserDaoImpl getInstance(){
-        if(Objects.isNull(userDao)){
-            userDao=new UserDaoImpl();
-        }
-        return userDao;
+    public UserDaoImpl() {
+        userDbInitialize();
     }
 
     @Override
     public User add(User user) {
-      if(Objects.isNull(usersDb)){
-          userDBinitialize();
-      }
-        return  usersDb.put(user.getEmail(),user);
+         usersDb.put(user.getEmail(),user);
+         return user;
     }
 
-    private void userDBinitialize(){
-        User adminUser = new User.UserBuilder().setName("supderAdmin").setEmail(adminEmail).setPassword(adminPassword).setRole(Role.superadmin).build();;
+    private void userDbInitialize(){
+        User adminUser = new User.UserBuilder().setUserId("superuser01").setName("superAdmin").setEmail(adminEmail).setPassword(adminPassword).setRole(Role.superadmin).build();
         adminUser.setId("Super01");
         usersDb.put(adminEmail, adminUser);
     }
@@ -50,6 +41,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public Optional<User> fetchUserByEmail(String email) throws Exception {
+        try{
+            return Optional.of(usersDb.get(email));
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Override
     public User removeAdmin(String email) throws Exception {
         try {
             User user = usersDb.get(email);
@@ -60,8 +60,13 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             throw new Exception(e);
         }
-
     }
+
+    @Override
+    public List<Book> userBorrowedBook(String email) throws Exception {
+        return usersDb.get(email).getBorrowedBooks();
+    }
+
 
     @Override
     public List<User> getUser() throws Exception {

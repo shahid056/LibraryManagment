@@ -1,13 +1,13 @@
-package server;
+package services;
 
 import entity.BookBorrowed;
 import entity.User;
 import utils.Response;
 
-public interface BorrowedBookServices {
+public interface BorrowedBookService {
      Response borrowBook(BookBorrowed bookBorrowed);
 
      Response returnBook(String bookId, User user);
 
-     void transactionBook();
+     Response fetchBorrowedBook();
 }
