@@ -1,6 +1,6 @@
 package repository.dao;
 
-import entity.User;
+import model.User;
 
 public interface AuthenticationDao {
      boolean userRegistration(User user) throws Exception;

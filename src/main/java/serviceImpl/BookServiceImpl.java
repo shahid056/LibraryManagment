@@ -1,10 +1,11 @@
 package serviceImpl;
 
-import entity.Book;
+import lombok.NonNull;
+import model.Book;
 import enums.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import repository.dao.BookDao;
-import services.BookService;
+import service.BookService;
 import utils.Response;
 
 import java.util.List;
@@ -25,15 +26,22 @@ public class BookServiceImpl implements BookService {
     public Response addBook(Book book) {
         Response response = new Response();
         try {
-            response = bookDao.isBookIsPresent(book).map(bookPresent -> {
-                        int totalNumberOFCopy = bookPresent.getNumberOfCopy() + book.getNumberOfCopy();
-                        bookPresent.setNumberOfCopy(totalNumberOFCopy);
-                        List<String> allSerialNumber = book.getAllSerialNumber();
-                        List<String> allSerialNumber1 = bookPresent.getAllSerialNumber();
-                        allSerialNumber1.addAll(allSerialNumber);
-                        return insertBookIntoDatabase(bookPresent);
-                    }).
-                    orElseGet(() -> insertBookIntoDatabase(book));
+            Optional<List<Book>> books = bookDao.getBooks();
+            List<Book> bookList = null;
+            if(books.isPresent()){
+               bookList  = books.get();
+            }
+
+            if (Objects.nonNull(bookList)) {
+               if(bookList.contains(book)){
+                   response = Response.builder().
+                           message("Book already exist").
+                           statusCode(ResponseStatus.Error).
+                           build();
+               }else {
+                   response = insertBookIntoDatabase(book);
+               }
+            }
             return response;
         } catch (Exception e) {
             log.error("error during the  inserting book into database", e);
@@ -75,28 +83,36 @@ public class BookServiceImpl implements BookService {
             return response;
         }
         try {
-            List<Book> book = fetchBooks();
-            Book books = book.get(Integer.parseInt(bookId));
-            if (book.size() > Integer.parseInt(bookId)) {
-                if (deleteAllCopy) {
-                    if (bookDao.deleteBook(books)) {
-                        response = Response.builder().statusCode(ResponseStatus.SUCCESS).message("Book Update Successful").build();
+            Object bookObject = fetchBooks().getResponseObject();
+            List<Book> book = null;
+            if (bookObject instanceof List<?>) {
+                book = (List<Book>) bookObject;
+            }
+            if (Objects.nonNull(book)) {
+                Book books = book.get(Integer.parseInt(bookId));
+                if (book.size() > Integer.parseInt(bookId)) {
+                    if (deleteAllCopy) {
+                        if (bookDao.deleteBook(books)) {
+                            response = Response.builder().statusCode(ResponseStatus.SUCCESS).message("Book Update Successful").build();
+                        } else {
+                            response = Response.builder().statusCode(ResponseStatus.Error).message("Book not Found").build();
+                        }
                     } else {
-                        response = Response.builder().statusCode(ResponseStatus.Error).message("Book not Found").build();
-                    }
-                } else {
-                    List<String> allSerialNumber = books.getAllSerialNumber();
-                    List<String> updateSerialNumber = allSerialNumber.stream().skip(noOfCopy).collect(Collectors.toList());
-                    books.setSrNo(updateSerialNumber);
-                    books.setNumberOfCopy(books.getNumberOfCopy()-noOfCopy);
-                    updateBook(books);
-                    Optional<Book> bookOptional = bookDao.addBook(books);
-                    if (bookOptional.isPresent()) {
-                        response = Response.builder().statusCode(ResponseStatus.SUCCESS).message("Book Update Successful").build();
-                    } else {
-                        response = Response.builder().statusCode(ResponseStatus.Error).message("Book not Found").build();
+//                        List<String> allSerialNumber = books.getAllSerialNumber();
+//                        List<String> updateSerialNumber = allSerialNumber.stream().skip(noOfCopy).collect(Collectors.toList());
+//                        books.setSerialNumber(updateSerialNumber);
+                        books.setNumberOfCopyAvailable(books.getNumberOfCopyAvailable() - noOfCopy);
+                        updateBook(books, "number_of_copy");
+                        Optional<Book> bookOptional = bookDao.addBook(books);
+                        if (bookOptional.isPresent()) {
+                            response = Response.builder().statusCode(ResponseStatus.SUCCESS).message("Book Update Successful").build();
+                        } else {
+                            response = Response.builder().statusCode(ResponseStatus.Error).message("Book update failed try again...").build();
+                        }
                     }
                 }
+            } else {
+                response = Response.builder().statusCode(ResponseStatus.Error).message("Book not Found").build();
             }
         } catch (Exception e) {
             response = Response.builder().statusCode(ResponseStatus.Error).message("Something went wrong...").build();
@@ -106,10 +122,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Response updateBook(Book book) {
+    public Response updateBook(Book book, String columName) {
         Response response = new Response();
         try {
-            Optional<Book> bookOptional = bookDao.addBook(book);
+            Optional<Book> bookOptional = bookDao.updateBook(book, columName);
             if (bookOptional.isPresent()) {
                 response = Response.builder().responseObject(bookOptional.get()).statusCode(ResponseStatus.SUCCESS).message("Book Update Successful...").build();
             } else {
@@ -123,18 +139,35 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> fetchBooks() {
-        return bookDao.getBooks();
+    public Response fetchBooks() {
+        Response response = new Response();
+        try {
+            Optional<List<Book>> bookOptional = bookDao.getBooks();
+            if (bookOptional.isPresent()) {
+                response = Response.builder().responseObject(bookOptional.get()).statusCode(ResponseStatus.SUCCESS).message("Book Update Successful...").build();
+            } else {
+                response = Response.builder().responseObject(null).statusCode(ResponseStatus.Error).message("Book not found...").build();
+            }
+        } catch (Exception e) {
+            Response.builder().statusCode(ResponseStatus.Error).message("Something went wrong").build();
+            log.info("Error during UpdateBook :", e);
+        }
+        return response;
     }
 
     @Override
     public Response getBookById(String bookId) {
         Response response;
-        Optional<Book> bookById = bookDao.findBookById(bookId);
-        if (bookById.isPresent()) {
-            response = Response.builder().responseObject(bookById.get()).statusCode(ResponseStatus.SUCCESS).message("Book found Successful...").build();
-        } else {
-            response = Response.builder().statusCode(ResponseStatus.Error).message("Book not found...").build();
+        try {
+            Book bookResp =bookDao.getBooksById(bookId).orElse(null);
+            if (Objects.nonNull(bookResp)) {
+                response = Response.builder().responseObject(bookResp).statusCode(ResponseStatus.SUCCESS).message("Book found Successful...").build();
+            }else {
+                response = Response.builder().statusCode(ResponseStatus.Error).message("Book not found...").build();
+            }
+        } catch (Exception e) {
+            response = Response.builder().statusCode(ResponseStatus.Error).message("something went wrong during book update...").build();
+            log.error("something went wrong during book update", e);
         }
         return response;
     }

@@ -1,6 +1,6 @@
-package services;
+package service;
 
-import entity.Book;
+import model.Book;
 import utils.Response;
 
 import java.util.List;
@@ -10,9 +10,9 @@ public interface BookService {
 
     Response deleteBook(String srNo, int noOfCopy,boolean deleteAllCopy);
 
-    Response updateBook(Book book);
+    Response updateBook(Book book,String columnName);
 
-    List<Book> fetchBooks();
+    Response fetchBooks();
 
     Response getBookById(String bookID);
 

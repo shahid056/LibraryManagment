@@ -1,10 +1,10 @@
 package serviceImpl;
 
-import entity.User;
+import model.User;
 import enums.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
-import services.AdminService;
-import services.UserService;
+import service.AdminService;
+import service.UserService;
 import utils.Response;
 
 import java.util.Objects;

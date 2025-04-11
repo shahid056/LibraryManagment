@@ -1,57 +1,81 @@
 package repository.daoimpl;
 
-import entity.Book;
-import entity.BookBorrowed;
-import entity.User;
+import model.Book;
+import model.BookBorrowed;
 import repository.dao.BookDao;
 import repository.dao.BorrowDao;
 import repository.dao.UserDao;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Date;
+import java.sql.*;
+import java.util.*;
+
+import static utils.ResultUtility.getBorrowedBookFromResultSet;
 
 public class BorrowDaoImpl implements BorrowDao {
-    private Map<String, BookBorrowed> borrowDataDb = new HashMap<>();
-    private final BookDao bookDao;
-    private final UserDao userDao;
+    private final Connection connection;
 
-    public BorrowDaoImpl(UserDao userDao, BookDao bookDao) {
-        this.userDao = userDao;
-        this.bookDao=bookDao;
+    public BorrowDaoImpl( Connection connection) {
+        this.connection = connection;
     }
 
     @Override
-    public BookBorrowed addBorrowedBook(Book book,BookBorrowed bookBorrowed) throws Exception {
-        try{
-             borrowDataDb.put(book.getBookId(),bookBorrowed);
-             return bookBorrowed;
+    public boolean addBorrowedBook(Book book, BookBorrowed bookBorrowed) throws Exception {
+        String insetQuery = "insert into borrowed_book (late_fine,borrowed_status,book_serial_number,date_of_return,book_id,user_id) values (?,?,?,?,?,?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insetQuery)) {
+            preparedStatement.setDouble(1, bookBorrowed.getFine());
+            preparedStatement.setBoolean(2, bookBorrowed.getStatus().toString().equalsIgnoreCase("borrowed"));
+            preparedStatement.setString(3, bookBorrowed.getBookSerialNumber());
+            preparedStatement.setDate(4, Date.valueOf(bookBorrowed.getReturnDate()));
+            preparedStatement.setInt(5, Integer.parseInt(book.getBookId()));
+            preparedStatement.setInt(6, Integer.parseInt(bookBorrowed.getUserId()));
+            int isInserted = preparedStatement.executeUpdate();
+            return isInserted > 0;
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    @Override
+    public List<BookBorrowed> getBorrowBook() throws SQLException {
+        String getQuery = "select * from borrowed_book";
+        try (Statement statement = connection.createStatement();
+             ResultSet borrowedData = statement.executeQuery(getQuery);
+        ) {
+            return getBorrowedBookFromResultSet(borrowedData).orElse(new ArrayList<>());
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    @Override
+    public Optional<BookBorrowed> returnBook(BookBorrowed bookBorrowed) throws Exception {
+        String returnQuery = "UPDATE borrowed_book SET borrowed_status = ? WHERE book_serial_number = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(returnQuery)) {
+            preparedStatement.setBoolean(1,false);
+            System.out.println(bookBorrowed.getBookSerialNumber());
+            preparedStatement.setString(2,bookBorrowed.getBookSerialNumber());
+            int i = preparedStatement.executeUpdate();
+            System.out.println(i);
+            return  i>0?Optional.of(bookBorrowed):Optional.empty();
+
         } catch (Exception e) {
             throw new Exception(e);
         }
     }
 
     @Override
-    public Map<String, BookBorrowed> getBorrowBook() {
-        return borrowDataDb;
-    }
-
-    @Override
-    public BookBorrowed returnBook(String bookId, User userData) throws Exception {
-        try {
-          return borrowDataDb.remove(bookId);
-        } catch (Exception e) {
-            throw new Exception(e);
+    public Optional<BookBorrowed> fetchBorrowedBookBySerialNum(String userId,String bookId) throws SQLException {
+        String getQuery = "select * from borrowed_book where book_id = ? and user_id =?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(getQuery)) {
+            preparedStatement.setInt(1, Integer.parseInt(bookId));
+            preparedStatement.setInt(2, Integer.parseInt(userId));
+            ResultSet borrowedData = preparedStatement.executeQuery();
+            return getBorrowedBookFromResultSet(borrowedData).map(List::getFirst);
+        } catch (SQLException e) {
+            throw new SQLException(e);
         }
     }
-
-    @Override
-    public Optional<BookBorrowed> findBorrowedBookById(String id) {
-        return Optional.of(borrowDataDb.get(id));
-    }
-
-
-
 }
 
 

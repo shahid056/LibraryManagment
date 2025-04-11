@@ -1,7 +1,7 @@
 package userInterface.common;
 
-import entity.User;
-import services.UserService;
+import model.User;
+import service.UserService;
 import userInterface.AbstractUi;
 import utils.Response;
 import utils.ValidatorRegxUtil;
@@ -56,8 +56,10 @@ public class UpdateUser {
         System.out.println("Enter a name :");
         String name = sc.nextLine();
         user.setName(name);
-        Response response = userService.updateUser(user);
+        Response response = userService.updateUser(user,"user_name");
+        System.out.println(" ");
         System.out.println(response.getMessage());
+        System.out.println(" ");
         System.out.println(user);
     }
 
@@ -68,7 +70,7 @@ public class UpdateUser {
             String newEmail = takeValidEmail("Enter a new email: ");
             if (user.getEmail().equalsIgnoreCase(oldEmail)) {
                 user.setEmail(newEmail);
-                Response response = userService.updateUser(user);
+                Response response = userService.updateUser(user,"email");
                 System.out.println(response.getMessage());
                 System.out.println(user);
             } else {
@@ -89,7 +91,7 @@ public class UpdateUser {
         System.out.println("Enter a password : ");
         String password = sc.next().trim();
         user.setPassword(password);
-        Response response = userService.updateUser(user);
+        Response response = userService.updateUser(user,"password");
         System.out.println(response.getMessage());
         System.out.println(user);
     }

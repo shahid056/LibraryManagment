@@ -1,6 +1,6 @@
 package repository.dao;
 
-import entity.Book;
+import model.Book;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +10,11 @@ public interface BookDao {
 
     boolean deleteBook(Book book) throws Exception;
 
-    List<Book> getBooks();
+    Optional<Book> updateBook(Book book , String columnName) throws Exception;
 
-    Optional<Book> findBookById(String id);
+    Optional<List<Book>> getBooks();
+
+    Optional<Book> getBooksById(String bookId) throws Exception;
 
     Optional<Book> isBookIsPresent(Book book) throws Exception;
 

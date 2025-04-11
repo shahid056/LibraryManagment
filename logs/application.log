@@ -1,0 +1,514 @@
+2025-04-11 11:28:50 [main] ERROR serviceImpl.UserServiceImpl - something went wrong at user add 
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
+  Detail: Key (email)=(sam21@gmail.com) already exists.
+	at repository.daoimpl.UserDaoImpl.add(UserDaoImpl.java:35)
+	at serviceImpl.UserServiceImpl.addUser(UserServiceImpl.java:27)
+	at serviceImpl.AuthenticationServiceImpl.userRegistration(AuthenticationServiceImpl.java:27)
+	at userInterface.Home.validateUser(Home.java:125)
+	at userInterface.Home.homeScreen(Home.java:68)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
+  Detail: Key (email)=(sam21@gmail.com) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at repository.daoimpl.UserDaoImpl.add(UserDaoImpl.java:33)
+	... 5 common frames omitted
+2025-04-11 12:24:52 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
+	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
+	at userInterface.Home.validateUser(Home.java:133)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:46:37 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:46:40 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:46:42 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:48:05 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:50:06 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:50:08 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:50:30 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:50:48 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:51:45 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:51:51 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:91)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:53:10 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(Unknown Source)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 12:54:54 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:92)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 16:10:11 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:92)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 16:20:05 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:92)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 16:20:07 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:92)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 16:20:14 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:92)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 16:23:44 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.sql.SQLException: org.postgresql.util.PSQLException: No value specified for parameter 2.
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:76)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:92)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: No value specified for parameter 2.
+	at org.postgresql.core.v3.SimpleParameterList.checkAllParametersSet(SimpleParameterList.java:380)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:355)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	... 6 common frames omitted
+2025-04-11 16:24:12 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: operator does not exist: integer = character varying
+  Hint: No operator matches the given name and argument types. You might need to add explicit type casts.
+  Position: 43
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:76)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:92)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: operator does not exist: integer = character varying
+  Hint: No operator matches the given name and argument types. You might need to add explicit type casts.
+  Position: 43
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.BorrowDaoImpl.fetchBorrowedBookBySerialNum(BorrowDaoImpl.java:73)
+	... 6 common frames omitted
+2025-04-11 16:25:21 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.lang.RuntimeException: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:115)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:63)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:99)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:58)
+	... 6 common frames omitted
+2025-04-11 16:25:25 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.lang.RuntimeException: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:115)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:63)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:99)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:58)
+	... 6 common frames omitted
+2025-04-11 16:25:28 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.lang.RuntimeException: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:115)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:63)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:99)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:58)
+	... 6 common frames omitted
+2025-04-11 16:25:30 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.lang.RuntimeException: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:115)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:63)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:99)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:58)
+	... 6 common frames omitted
+2025-04-11 16:26:08 [main] ERROR serviceImpl.BorrowedBookServiceImpl - error during return book :
+java.lang.RuntimeException: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:115)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:110)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: java.lang.Exception: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:63)
+	at serviceImpl.BorrowedBookServiceImpl.returnBook(BorrowedBookServiceImpl.java:99)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: column "borrowed_status" does not exist
+  Where: PL/pgSQL function update_total_book_borrowed_decrement() line 4 at SQL statement
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at repository.daoimpl.BorrowDaoImpl.returnBook(BorrowDaoImpl.java:58)
+	... 6 common frames omitted
+2025-04-11 17:04:16 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
+	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
+	at userInterface.Home.validateUser(Home.java:133)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+2025-04-11 17:07:19 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching borrowed book
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:103)
+	at serviceImpl.UserServiceImpl.userBorrowedBook(UserServiceImpl.java:146)
+	at userInterface.dashboard.DashboardUser.displayBorrowedBook(DashboardUser.java:124)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:103)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:100)
+	... 7 common frames omitted
+2025-04-11 17:07:32 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching borrowed book
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:103)
+	at serviceImpl.UserServiceImpl.userBorrowedBook(UserServiceImpl.java:146)
+	at userInterface.dashboard.DashboardUser.displayBorrowedBook(DashboardUser.java:124)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:103)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:100)
+	... 7 common frames omitted
+2025-04-11 17:11:45 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching borrowed book
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:103)
+	at serviceImpl.UserServiceImpl.userBorrowedBook(UserServiceImpl.java:146)
+	at userInterface.dashboard.DashboardUser.displayBorrowedBook(DashboardUser.java:124)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:103)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:100)
+	... 7 common frames omitted
+2025-04-11 17:13:00 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching borrowed book
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:103)
+	at serviceImpl.UserServiceImpl.userBorrowedBook(UserServiceImpl.java:146)
+	at userInterface.dashboard.DashboardUser.displayBorrowedBook(DashboardUser.java:124)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:103)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:100)
+	... 7 common frames omitted
+2025-04-11 17:15:34 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching borrowed book
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(Unknown Source)
+	at serviceImpl.UserServiceImpl.userBorrowedBook(UserServiceImpl.java:146)
+	at userInterface.dashboard.DashboardUser.displayBorrowedBook(DashboardUser.java:124)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:103)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 51
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(UserDaoImpl.java:100)
+	... 7 common frames omitted
+2025-04-11 17:16:44 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching borrowed book
+java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 54
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(Unknown Source)
+	at serviceImpl.UserServiceImpl.userBorrowedBook(UserServiceImpl.java:146)
+	at userInterface.dashboard.DashboardUser.displayBorrowedBook(DashboardUser.java:124)
+	at userInterface.dashboard.DashboardUser.bookReturn(DashboardUser.java:103)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:57)
+	at userInterface.Home.isLoginUser(Home.java:83)
+	at userInterface.Home.homeScreen(Home.java:67)
+	at Main.main(Main.java:11)
+Caused by: org.postgresql.util.PSQLException: ERROR: missing FROM-clause entry for table "a"
+  Position: 54
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at repository.daoimpl.UserDaoImpl.userBorrowedBook(Unknown Source)
+	... 7 common frames omitted

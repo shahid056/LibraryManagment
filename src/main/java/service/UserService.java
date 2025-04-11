@@ -1,13 +1,13 @@
-package services;
+package service;
 
-import entity.User;
+import model.User;
 import utils.Response;
 
 public interface UserService {
 
     Response addUser(User user);
 
-    Response updateUser(User user);
+    Response updateUser(User user,String columnName);
 
     Response fetchUser();
 

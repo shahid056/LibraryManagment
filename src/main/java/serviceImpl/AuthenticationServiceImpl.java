@@ -1,28 +1,28 @@
 package serviceImpl;
 
-import entity.User;
+import model.User;
 import enums.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.mindrot.jbcrypt.BCrypt;
 import repository.dao.AuthenticationDao;
-import services.AuthenticationService;
-import services.UserService;
+import service.AuthenticationService;
+import service.UserService;
 import utils.Response;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private final AuthenticationDao authenticationDoa;
     private final UserService userService;
 
-    public AuthenticationServiceImpl(AuthenticationDao authenticationDoa, UserService userService) {
-        this.authenticationDoa = authenticationDoa;
+    public AuthenticationServiceImpl(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public Response userRegistration(User user) {
-        Response response ;
+        Response response;
         try {
             Object userRes = userService.addUser(user).getResponseObject();
             if (Objects.nonNull(userRes)) {
@@ -38,18 +38,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Response userLogin(String email,String password) {
-        Response response ;
+    public Response userLogin(String email, String password) {
+        Response response = new Response();
         try {
-            User user = authenticationDoa.userLogin(email, password);
-            if(Objects.nonNull(user)) {
-              response =  Response.builder().responseObject(user).message("Login successful...").statusCode(ResponseStatus.SUCCESS).build();
-            }else {
-                response =  Response.builder().message("User not found...").statusCode(ResponseStatus.Error).build();
+            Object userResponse = userService.checkUserPrentOrNot(email).getResponseObject();
+            if (userResponse instanceof User user) {
+                if (BCrypt.checkpw(password, user.getPassword())) {
+                    response = Response.builder().responseObject(user).message(user.getName() + " Welcome Back").statusCode(ResponseStatus.SUCCESS).build();
+                }else {
+                    response = Response.builder().responseObject(null).message("invalid credential").statusCode(ResponseStatus.Error).build();
+                }
+            } else {
+                response = Response.builder().responseObject(null).message("invalid credential").statusCode(ResponseStatus.Error).build();
             }
         } catch (Exception e) {
             response = Response.builder().message("Something went wrong during login...").statusCode(ResponseStatus.Error).build();
-           log.error("Login error",e);
+            log.error("Login error", e);
         }
         return response;
     }

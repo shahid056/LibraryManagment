@@ -1,11 +1,12 @@
 package serviceImpl;
 
-import entity.Book;
-import entity.User;
+import model.Book;
+import model.User;
 import enums.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.mindrot.jbcrypt.BCrypt;
 import repository.dao.UserDao;
-import services.UserService;
+import service.UserService;
 import utils.Response;
 
 import java.util.*;
@@ -22,30 +23,26 @@ public class UserServiceImpl implements UserService {
     public Response addUser(User user) {
         Response response;
         try {
-            Optional<User> isUserPresent = userDao.checkUserPrentOrNot(user.getEmail());
-            if (isUserPresent.isEmpty()) {
-                Random random = new Random();
-                int id = 1000 + random.nextInt(9000);
-                user.setId(user.getName() + id);
-                user.setPassword((user.getPassword()));
-            }
-            if (Objects.nonNull(userDao.add(user))) {
-                response = Response.builder().responseObject(user).message("user added Successful..").statusCode(ResponseStatus.SUCCESS).build();
+            user.setPassword(BCrypt.hashpw(user.getPassword(),BCrypt.gensalt()));
+            User userRes = userDao.add(user);
+            if (Objects.nonNull(userRes)) {
+                response = Response.builder().responseObject(userRes).message("user added Successful..").statusCode(ResponseStatus.SUCCESS).build();
             } else {
-                response = Response.builder().message("Something went wrong try agiain..").statusCode(ResponseStatus.Error).build();
+                response = Response.builder().responseObject(null).message("Something went wrong try again..").statusCode(ResponseStatus.Error).build();
             }
         } catch (Exception e) {
-            response = Response.builder().message("Something went wrong try agiain..").statusCode(ResponseStatus.Error).build();
+            response = Response.builder().message("Something went wrong try again..").statusCode(ResponseStatus.Error).build();
             log.error("something went wrong at user add ", e);
         }
         return response;
     }
 
     @Override
-    public Response updateUser(User user) {
+    public Response updateUser(User user,String columnName) {
         Response response;
         try {
-            if (Objects.nonNull(userDao.add(user))) {
+            if(columnName.equalsIgnoreCase("password")) user.setPassword(BCrypt.hashpw(user.getPassword(),BCrypt.gensalt()));
+            if (Objects.nonNull(userDao.updateUser(user,columnName))) {
                 response = Response.builder().responseObject(user).message("user update successful..").statusCode(ResponseStatus.SUCCESS).build();
             } else {
                 response = Response.builder().responseObject(user).message("user not found...").statusCode(ResponseStatus.Error).build();
@@ -61,11 +58,11 @@ public class UserServiceImpl implements UserService {
     public Response fetchUser() {
         Response response;
         try {
-            List<User> user = userDao.getUser();
-            if (Objects.nonNull(user)) {
-                response = Response.builder().responseObject(user).message("user fetch successful..").statusCode(ResponseStatus.SUCCESS).build();
+            Optional<List<User>> user = userDao.fetchUser();
+            if (user.isPresent()) {
+                response = Response.builder().responseObject(user.get()).message("user fetch successful..").statusCode(ResponseStatus.SUCCESS).build();
             } else {
-                response = Response.builder().responseObject(null).message("user not found..").statusCode(ResponseStatus.Error).build();
+                response = Response.builder().responseObject(null).message("user not found...").statusCode(ResponseStatus.Error).build();
             }
         } catch (Exception e) {
             response = Response.builder().message("something went wrong while inserting user..").statusCode(ResponseStatus.Error).build();
@@ -112,7 +109,7 @@ public class UserServiceImpl implements UserService {
     public Response checkUserPrentOrNot(String email) {
         Response response;
         try {
-            Optional<User> user = userDao.checkUserPrentOrNot(email);
+            Optional<User> user = userDao.fetchUserByEmail(email);
             if (user.isPresent()) {
                 response = Response.builder().responseObject(user.get()).message("user find successful..").statusCode(ResponseStatus.SUCCESS).build();
             } else {
@@ -146,11 +143,11 @@ public class UserServiceImpl implements UserService {
     public Response userBorrowedBook(User user) {
         Response response;
         try {
-            List<Book> userRes = userDao.userBorrowedBook(user.getEmail());
-            if (Objects.nonNull(userRes)) {
-                response = Response.builder().responseObject(userRes).message("Borrowed book fetch successful..").statusCode(ResponseStatus.SUCCESS).build();
+            List<Book> userRes = userDao.userBorrowedBook(user.getId());
+            if (userRes.isEmpty()) {
+                response = Response.builder().responseObject(null).message("no book found").statusCode(ResponseStatus.Error).build();
             } else {
-                response = Response.builder().message("no book found").statusCode(ResponseStatus.Error).build();
+                response = Response.builder().responseObject(userRes).message("Borrowed book fetch successful..").statusCode(ResponseStatus.SUCCESS).build();
             }
         } catch (Exception e) {
             response = Response.builder().message("something went wrong while inserting user..").statusCode(ResponseStatus.Error).build();

@@ -1,24 +1,21 @@
 package repository.dao;
 
-import entity.Book;
-import entity.BookBorrowed;
-import entity.User;
+import model.Book;
+import model.BookBorrowed;
 
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 
 public interface BorrowDao {
 
-     BookBorrowed addBorrowedBook(Book book, BookBorrowed bookBorrowed) throws Exception;
+    boolean addBorrowedBook(Book book, BookBorrowed bookBorrowed) throws Exception;
 
-     Map<String, BookBorrowed> getBorrowBook() throws Exception;
+    List<BookBorrowed> getBorrowBook() throws Exception;
 
-     BookBorrowed returnBook(String bookId, User userData) throws Exception ;
+    Optional<BookBorrowed> returnBook(BookBorrowed bookBorrowed) throws Exception;
 
-     Optional<BookBorrowed> findBorrowedBookById(String id);
-
-
-
+    Optional<BookBorrowed> fetchBorrowedBookBySerialNum(String userId,String bookId) throws SQLException;
 }
 

@@ -1,6 +1,6 @@
-package services;
+package service;
 
-import entity.User;
+import model.User;
 import utils.Response;
 
 public interface AuthenticationService {

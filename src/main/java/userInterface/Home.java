@@ -1,44 +1,44 @@
 package userInterface;
 
-import entity.User;
 import enums.Role;
-import repository.dao.AuthenticationDao;
+import model.User;
 import repository.dao.BookDao;
 import repository.dao.BorrowDao;
+import repository.dao.SerialNumberDao;
 import repository.dao.UserDao;
-import repository.daoimpl.AuthenticationDoaImpl;
 import repository.daoimpl.BookDaoImpl;
 import repository.daoimpl.BorrowDaoImpl;
+import repository.daoimpl.SerialNumberDaoImpl;
 import repository.daoimpl.UserDaoImpl;
-import services.*;
+import service.*;
 import serviceImpl.*;
 import userInterface.common.BookData;
 import userInterface.common.UpdateUser;
 import userInterface.dashboard.DashBoardAdmin;
 import userInterface.dashboard.DashboardUser;
-import utils.ValidatorRegxUtil;
+import utils.ConnectionDb;
 import utils.Response;
+import utils.ValidatorRegxUtil;
 
-
+import java.sql.Connection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class Home extends AbstractUi {
     static Scanner sc = new Scanner(System.in);
 
-
-    BookDao bookDao = new BookDaoImpl();
-    UserDao userDao = new UserDaoImpl();
-    AuthenticationDao authenticationDao = new AuthenticationDoaImpl(userDao);
-    BorrowDao borrowDao = new BorrowDaoImpl(userDao, bookDao);
+    Connection connection = ConnectionDb.connectionDataBase();
+    BookDao bookDao = new BookDaoImpl(connection);
+    UserDao userDao = new UserDaoImpl(connection);
+    SerialNumberDao serialNumberDao = new SerialNumberDaoImpl(connection);
+    BorrowDao borrowDao = new BorrowDaoImpl(connection);
 
     UserService userService = new UserServiceImpl(userDao);
-    AuthenticationService authenticationService = new AuthenticationServiceImpl(authenticationDao, userService);
+    AuthenticationService authenticationService = new AuthenticationServiceImpl(userService);
     BookService bookService = new BookServiceImpl(bookDao);
     AdminService adminService = new AdminServiceImpl(userService);
-    BorrowedBookService borrowedBookService = new BorrowedBookServiceImpl(borrowDao, bookService, userService);
+    SerialNumberService serialNumberService = new SerialNumberServiceImpl(serialNumberDao);
+    BorrowedBookService borrowedBookService = new BorrowedBookServiceImpl(borrowDao, bookService, userService,serialNumberService);
 
     UpdateUser updateUser = new UpdateUser(userService);
 
@@ -46,7 +46,7 @@ public class Home extends AbstractUi {
 
     public Home() {
         BookData bookData1 = new BookData(bookService);
-        bookData1.loadBookData();
+        //bookData1.loadBookData();
     }
 
     static {
@@ -60,7 +60,7 @@ public class Home extends AbstractUi {
         while (isExit) {
             try {
                 displayOption(List.of("==========================Login========================================================",
-                        "Enter 1 for login :",
+                        "Enter 1 for login:",
                         "Enter 2 for SignUp:"));
                 choice = sc.nextInt();
                 switch (choice) {
@@ -95,7 +95,7 @@ public class Home extends AbstractUi {
         String email = null;
         while (isNotValid) {
             System.out.println("Enter a email (for back to menu type b): ");
-            email = sc.next().trim();
+            email = sc.next().toLowerCase().trim();
             if (email.equalsIgnoreCase("b")) {
                 return null;
             }
@@ -106,7 +106,7 @@ public class Home extends AbstractUi {
             }
         }
         System.out.println("Enter a password (for back to menu type b): ");
-        var password = sc.next().trim();
+        var password = sc.next().toLowerCase().trim();
         if (password.equalsIgnoreCase("b")) {
             return null;
         }
@@ -120,8 +120,8 @@ public class Home extends AbstractUi {
             if (name.equalsIgnoreCase("b")) {
                 return null;
             }
-            if (Stream.of(name, email, password).allMatch(Objects::nonNull)) {
-                User user = new User.UserBuilder().setName(name).setEmail(email).setRole(Role.user).setPassword(password).build();
+            if (Boolean.FALSE.equals(name.isBlank()) && Boolean.FALSE.equals(email.isBlank()) && Boolean.FALSE.equals(password.isBlank())) {
+                User user =  User.builder().name(name).email(email).role(Role.user).password(password).build();
                 Response response = authenticationService.userRegistration(user);
                 System.out.println(response.getMessage());
                 return (User) response.getResponseObject();
@@ -129,9 +129,14 @@ public class Home extends AbstractUi {
                 System.out.println("Field should not be empty...");
             }
         } else {
-            Response response = authenticationService.userLogin(email, password);
-            System.err.println(response.getMessage());
-            return (User) response.getResponseObject();
+            if(Boolean.FALSE.equals(email.isBlank()) && Boolean.FALSE.equals(password.isBlank())){
+                Response response = authenticationService.userLogin(email, password);
+                Object userResponse = response.getResponseObject();
+                System.err.println(response.getMessage());
+                return (User) userResponse;
+            }else {
+                System.err.println("Field should not be blank");
+            }
         }
         return null;
     }
