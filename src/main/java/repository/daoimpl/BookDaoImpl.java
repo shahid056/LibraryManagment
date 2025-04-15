@@ -23,7 +23,7 @@ public class BookDaoImpl implements repository.dao.BookDao {
     @Override
     public Optional<Book> addBook(Book book) throws Exception {
 
-        String insetQuery = "insert into book (name,author,category,number_of_copy,total_number_of_copy) values (?,?,?::book_category,?,?) RETURNING book_id";
+        String insetQuery = "insert into book (name,author,category,number_of_available_copy,total_number_of_copy) values (?,?,?::book_category,?,?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insetQuery)) {
             preparedStatement.setString(1, book.getName());
@@ -31,8 +31,8 @@ public class BookDaoImpl implements repository.dao.BookDao {
             preparedStatement.setString(3, book.getCategory().name());
             preparedStatement.setInt(4, book.getTotalNumberOfCopy());
             preparedStatement.setInt(5, book.getTotalNumberOfCopy());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return ResultUtility.getBookFromResultSet(resultSet).map(List::getFirst);
+            int resultSet = preparedStatement.executeUpdate();
+            return resultSet>0?Optional.ofNullable(book):Optional.empty();
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -53,13 +53,13 @@ public class BookDaoImpl implements repository.dao.BookDao {
 
     @Override
     public boolean deleteBook(Book book) throws Exception {
-        if (Objects.isNull(book)) {
-            return false;
-        }
-        try {
-            return bookDb.remove(book);
+        String deleteQuery = "delete from book where book_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(deleteQuery);
+        ) {
+            statement.setInt(1, Integer.parseInt(book.getBookId()));
+            return statement.executeUpdate()>0;
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -105,12 +105,11 @@ public class BookDaoImpl implements repository.dao.BookDao {
 
     @Override
     public Optional<List<Book>> getBooks() {
-        String fetchQuery = "select DISTINCT on (book.book_id) *  from book inner join serial_number " +
-                "on book.book_id = serial_number.book_id;";
+        String fetchQuery = "select * from book";
         try (Statement statement = connection.createStatement();
              ResultSet bookData = statement.executeQuery(fetchQuery);
         ) {
-            return (Optional<List<Book>>) ResultUtility.getBookFromResultSet(bookData);
+            return ResultUtility.getBookFromResultSet(bookData);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

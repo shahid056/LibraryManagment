@@ -77,42 +77,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Response deleteBook(String bookId, int noOfCopy, boolean deleteAllCopy) {
+    public Response deleteBook(Book book) {
         Response response = new Response();
-        if (Objects.isNull(bookId)) {
-            return response;
-        }
         try {
-            Object bookObject = fetchBooks().getResponseObject();
-            List<Book> book = null;
-            if (bookObject instanceof List<?>) {
-                book = (List<Book>) bookObject;
-            }
             if (Objects.nonNull(book)) {
-                Book books = book.get(Integer.parseInt(bookId));
-                if (book.size() > Integer.parseInt(bookId)) {
-                    if (deleteAllCopy) {
-                        if (bookDao.deleteBook(books)) {
-                            response = Response.builder().statusCode(ResponseStatus.SUCCESS).message("Book Update Successful").build();
-                        } else {
-                            response = Response.builder().statusCode(ResponseStatus.Error).message("Book not Found").build();
-                        }
-                    } else {
-//                        List<String> allSerialNumber = books.getAllSerialNumber();
-//                        List<String> updateSerialNumber = allSerialNumber.stream().skip(noOfCopy).collect(Collectors.toList());
-//                        books.setSerialNumber(updateSerialNumber);
-                        books.setNumberOfCopyAvailable(books.getNumberOfCopyAvailable() - noOfCopy);
-                        updateBook(books, "number_of_copy");
-                        Optional<Book> bookOptional = bookDao.addBook(books);
-                        if (bookOptional.isPresent()) {
-                            response = Response.builder().statusCode(ResponseStatus.SUCCESS).message("Book Update Successful").build();
-                        } else {
-                            response = Response.builder().statusCode(ResponseStatus.Error).message("Book update failed try again...").build();
-                        }
-                    }
+                if (bookDao.deleteBook(book)) {
+                    response = Response.builder().responseObject(Optional.of(book)).statusCode(ResponseStatus.SUCCESS).message("Book Update Successful").build();
+                } else {
+                    response = Response.builder().responseObject(Optional.empty()).statusCode(ResponseStatus.Error).message("Book not Found").build();
                 }
-            } else {
-                response = Response.builder().statusCode(ResponseStatus.Error).message("Book not Found").build();
+            }else {
+                response = Response.builder().responseObject(Optional.empty()).statusCode(ResponseStatus.Error).message("Book not Found").build();
             }
         } catch (Exception e) {
             response = Response.builder().statusCode(ResponseStatus.Error).message("Something went wrong...").build();

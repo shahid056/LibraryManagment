@@ -50,7 +50,7 @@ public class ResultUtility {
     public static Optional<List<BookBorrowed>> getBorrowedBookFromResultSet(ResultSet resultSet) throws SQLException {
         List<BookBorrowed> borrowedList = new ArrayList<>();
         while (resultSet.next()) {
-            borrowedList.add(BookBorrowed.builder().fine(resultSet.getInt("late_fine"))
+            borrowedList.add(BookBorrowed.builder().fine(resultSet.getInt("late_fine")).borrowId("borrowed_book_id")
                     .status((resultSet.getBoolean("borrowed_status") ? Status.Borrowed : Status.Returned)).borrowDate(resultSet.getDate("date_of_issue").toLocalDate())
                     .returnDate(resultSet.getDate("date_of_return").toLocalDate()).bookSerialNumber(resultSet.getString("book_serial_number")).
                     userId(String.valueOf(resultSet.getInt("user_id"))).

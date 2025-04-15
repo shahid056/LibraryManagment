@@ -38,7 +38,7 @@ public class Home extends AbstractUi {
     BookService bookService = new BookServiceImpl(bookDao);
     AdminService adminService = new AdminServiceImpl(userService);
     SerialNumberService serialNumberService = new SerialNumberServiceImpl(serialNumberDao);
-    BorrowedBookService borrowedBookService = new BorrowedBookServiceImpl(borrowDao, bookService, userService,serialNumberService);
+    BorrowedBookService borrowedBookService = new BorrowedBookServiceImpl(borrowDao, bookService);
 
     UpdateUser updateUser = new UpdateUser(userService);
 

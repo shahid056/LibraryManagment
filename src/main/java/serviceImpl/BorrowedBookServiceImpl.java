@@ -1,11 +1,11 @@
 package serviceImpl;
 
-import model.Book;
-import model.BookBorrowed;
-import model.User;
 import enums.ResponseStatus;
 import enums.Status;
 import lombok.extern.slf4j.Slf4j;
+import model.Book;
+import model.BookBorrowed;
+import model.User;
 import repository.dao.BorrowDao;
 import service.BookService;
 import service.BorrowedBookService;
@@ -24,17 +24,12 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 public class BorrowedBookServiceImpl implements BorrowedBookService {
 
-
     private final BorrowDao borrowDao;
     private final BookService bookService;
-    private final UserService userService;
-    private final SerialNumberService serialNumberService;
 
-    public BorrowedBookServiceImpl(BorrowDao borrowDao, BookService bookService, UserService userService, SerialNumberService serialNumberService) {
+    public BorrowedBookServiceImpl(BorrowDao borrowDao, BookService bookService) {
         this.borrowDao = borrowDao;
         this.bookService = bookService;
-        this.userService = userService;
-        this.serialNumberService = serialNumberService;
     }
 
     @Override
@@ -87,10 +82,8 @@ public class BorrowedBookServiceImpl implements BorrowedBookService {
             if (Objects.nonNull(book) && Objects.nonNull(user)) {
                 List<BookBorrowed> borrowBook = borrowDao.getBorrowBook();
                 if (Boolean.FALSE.equals(borrowBook.isEmpty())) {
-                    String serialNUmber = serialNumberGenerator(book);
-                    System.out.println(serialNUmber);
-                    Optional<BookBorrowed> bookBorrowed = borrowDao.fetchBorrowedBookBySerialNum(user.getId(),book.getBookId());
-                    if(bookBorrowed.isPresent()){
+                    Optional<BookBorrowed> bookBorrowed = borrowDao.fetchBorrowedUserIdBookId(user.getId(), book.getBookId());
+                    if (bookBorrowed.isPresent()) {
                         bookBorrowed.get().setStatus(Status.Returned);
                         double fine = fineCalculate(bookBorrowed.get());
                         bookBorrowed.get().setFine(fine);
@@ -102,7 +95,7 @@ public class BorrowedBookServiceImpl implements BorrowedBookService {
                                                 .message("Book returned successfully.")
                                                 .statusCode(ResponseStatus.SUCCESS)
                                                 .build());
-                                        bookService.updateBook(book,"number_of_available_copy");
+                                        bookService.updateBook(book, "number_of_available_copy");
                                     },
                                     () -> {
                                         response.set(Response.builder()
@@ -114,10 +107,9 @@ public class BorrowedBookServiceImpl implements BorrowedBookService {
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-                    }
-                   else {
+                    } else {
                         response.set(Response.builder().message("Book not found").statusCode(ResponseStatus.Error).build());
-                    };
+                    }
                 }
             }
         } catch (Exception e) {
@@ -138,7 +130,24 @@ public class BorrowedBookServiceImpl implements BorrowedBookService {
     }
 
     @Override
-    public Response fetchBorrowedBook() {
+    public Response fetchBorrowedBookByUserId(String userId) {
+        Response response;
+        try {
+            List<BookBorrowed> borrowBook = borrowDao.fetchBorrowedUserId(userId);
+            if (Boolean.FALSE.equals(borrowBook.isEmpty())) {
+                response = Response.builder().responseObject(borrowBook).message("Book successfully fetch..").statusCode(ResponseStatus.SUCCESS).build();
+            } else {
+                response = Response.builder().message("Book fetch failed..").statusCode(ResponseStatus.Error).build();
+            }
+        } catch (Exception e) {
+            response = Response.builder().message("no book found").statusCode(ResponseStatus.Error).build();
+            log.info("Something went wrong during print the borrowed book", e);
+        }
+        return response;
+    }
+
+    @Override
+    public Response fetchBorrowedBookById() {
         Response response;
         try {
             List<BookBorrowed> borrowBook = borrowDao.getBorrowBook();

@@ -16,6 +16,11 @@ public interface BorrowDao {
 
     Optional<BookBorrowed> returnBook(BookBorrowed bookBorrowed) throws Exception;
 
-    Optional<BookBorrowed> fetchBorrowedBookBySerialNum(String userId,String bookId) throws SQLException;
+    Optional<BookBorrowed> fetchBorrowedUserIdBookId(String userId, String bookId) throws SQLException;
+
+    List<BookBorrowed> fetchBorrowedUserId(String userId) throws SQLException;
+
 }
+
+
 

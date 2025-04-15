@@ -1,15 +1,15 @@
 package userInterface.dashboard;
 
+import enums.BookCategory;
+import enums.ResponseStatus;
+import enums.Role;
 import model.Book;
 import model.BookBorrowed;
 import model.User;
-import enums.BookCategory;
-import enums.Role;
 import service.AdminService;
 import service.BookService;
 import service.BorrowedBookService;
 import service.UserService;
-import serviceImpl.BookServiceImpl;
 import userInterface.AbstractUi;
 import userInterface.common.UpdateUser;
 import utils.Response;
@@ -67,11 +67,11 @@ public class DashBoardAdmin extends AbstractUi {
             }
             switch (choice) {
                 case 1 -> profileView(user);
-                case 2 -> displayBook(false);
+                case 2 -> displayBook();
                 case 3 -> bookAdd();
                 case 4 -> removeBook();
                 case 5 -> displayUserRecord();
-                case 6 -> displayUser();
+                case 6 -> displayUser(false);
                 case 7 -> bookUpdate();
                 case 8 -> isSuperAdmin(user, 8);
                 case 9 -> isSuperAdmin(user, 9);
@@ -96,14 +96,16 @@ public class DashBoardAdmin extends AbstractUi {
     private void bookUpdate() {
         while (true) {
             try {
-                displayBook(false);
-                System.out.println("Enter a  book id to update (for back to main menu enter b: ");
-                String bookId = sc.nextLine().trim();
-                if (bookId.equalsIgnoreCase("b")) return;
-                if (bookId.isEmpty()) {
-                    System.err.println("Field should not be empty");
+                Map<Integer, Book> bookMap = displayBook();
+                System.out.println("Enter a  book id to update (for back to main menu enter -1: ");
+                int bookId = sc.nextInt();
+                Book book = bookMap.get(bookId);
+                if (bookId == -1) return;
+                if (bookId > -1) {
+                    updateBookFields(book);
+                } else {
+                    System.err.println("enter a proper book id..");
                 }
-                updateBookFields(bookId);
             } catch (Exception e) {
                 System.err.println("Enter a proper input");
                 sc.nextLine();
@@ -112,28 +114,25 @@ public class DashBoardAdmin extends AbstractUi {
     }
 
 
-    private void updateBookFields(String bookId) {
+    private void updateBookFields(Book book) {
         try {
-            Response bookById = bookService.getBookById(bookId);
-            Object book = bookById.getResponseObject();
-            if (book instanceof Book bookData) {
-                System.out.println(" ");
-                AbstractUi.displayOption(List.of("What data you want to update :",
-                        "Enter 1 for update book name : ",
-                        "Enter 2 for update book author : ",
-                        "Enter 3 for update Number of copy : ",
-                        "Enter 4 for Back to Main Menu : "));
-                int op = sc.nextInt();
-                switch (op) {
-                    case 1 -> updateName(bookData);
-                    case 2 -> updateAuthor(bookData);
-                    case 3 -> updateCopy(bookData);
-                    case 4 -> {
-                        return;
-                    }
-                    default -> System.err.println("Invalid operations...");
+            System.out.println(" ");
+            System.out.println("Book you want to update is : " + book.getName());
+            System.out.println(" ");
+            AbstractUi.displayOption(List.of("What data you want to update :",
+                    "Enter 1 for update book name : ",
+                    "Enter 2 for update book author : ",
+                    "Enter 3 for update Number of copy : ",
+                    "Enter 4 for Back to Main Menu : "));
+            int op = sc.nextInt();
+            switch (op) {
+                case 1 -> updateName(book);
+                case 2 -> updateAuthor(book);
+                case 3 -> updateCopy(book);
+                case 4 -> {
+                    return;
                 }
-
+                default -> System.err.println("Invalid operations...");
             }
         } catch (Exception e) {
             System.err.println("Enter a proper input :");
@@ -154,10 +153,10 @@ public class DashBoardAdmin extends AbstractUi {
                         break;
                     }
                     book.setTotalNumberOfCopy(book.getTotalNumberOfCopy() + bookCount);
-                    book.setNumberOfCopyAvailable(book.getNumberOfCopyAvailable()+bookCount);
-                    System.out.println(bookService.updateBook(book,"number_of_copy").getMessage());
+                    book.setNumberOfCopyAvailable(book.getNumberOfCopyAvailable() + bookCount);
+                    System.out.println(bookService.updateBook(book, "number_of_available_copy").getMessage());
                     sc.nextLine();
-                    displayBook(false);
+                    displayBook();
                     return;
                 }
                 case 2: {
@@ -168,12 +167,11 @@ public class DashBoardAdmin extends AbstractUi {
                         break;
                     } else if (book.getNumberOfCopyAvailable() > bookCount) {
                         book.setTotalNumberOfCopy(book.getTotalNumberOfCopy() - bookCount);
-                        book.setNumberOfCopyAvailable(book.getNumberOfCopyAvailable()-bookCount);
-                        System.out.println(bookService.updateBook(book,"number_of_copy").getMessage());
+                        book.setNumberOfCopyAvailable(book.getNumberOfCopyAvailable() - bookCount);
+                        System.out.println(bookService.updateBook(book, "number_of_available_copy").getMessage());
                         sc.nextLine();
-                        displayBook(false);
-                        return;
-                    }else {
+                        displayBook();
+                    } else {
                         System.out.println("Book are not available to remove/book are on rent");
                     }
                 }
@@ -193,11 +191,11 @@ public class DashBoardAdmin extends AbstractUi {
                 return;
             }
             book.setAuthor(bookAuthorName);
-            displayBook(false);
+            displayBook();
         } catch (InputMismatchException e) {
             System.out.println("Enter a proper value ");
         }
-        System.out.println(bookService.updateBook(book,"author").getMessage());
+        System.out.println(bookService.updateBook(book, "author").getMessage());
     }
 
 
@@ -206,15 +204,15 @@ public class DashBoardAdmin extends AbstractUi {
         try {
             System.out.println("Enter new name of Book (Enter b  to back to menu ) : ");
             String bookName = sc.nextLine();
-            if (bookName.equalsIgnoreCase("back")) {
+            if (bookName.equalsIgnoreCase("b")) {
                 return;
             }
             book.setName(bookName);
-            displayBook(false);
+            displayBook();
         } catch (InvalidOpenTypeException e) {
             System.err.println("Enter a proper input");
         }
-        System.out.println(bookService.updateBook(book,"name").getMessage());
+        System.out.println(bookService.updateBook(book, "name").getMessage());
     }
 
     private void profileView(User user) {
@@ -223,11 +221,11 @@ public class DashBoardAdmin extends AbstractUi {
         updateUser.updateUser(user);
     }
 
-    private void displayUser() {
+    private void displayUser(boolean isAdmin) {
         try {
             System.out.println(" ");
             System.out.println("+----------------+--------------------+------------+----------------+--------------------------------------------");
-            System.out.println(String.format("|%-10s |%-20s | %-30s | %-15s | %-10s | %-10s |%n","id" ,"Name", "Email", "Role", "Books", "Date of Joining"));
+            System.out.println(String.format("|%-10s |%-20s | %-30s | %-15s | %-10s | %-10s |%n", "id", "Name", "Email", "Role", (isAdmin) ? " " : "Book", "Date of Joining"));
             System.out.println("+----------------+--------------------+------------+----------------+---------------------------------------------");
             Object response = adminService.fetchUser().getResponseObject();
             if (response instanceof List<?> user) {
@@ -235,16 +233,18 @@ public class DashBoardAdmin extends AbstractUi {
                 AtomicInteger index = new AtomicInteger();
                 if (!user.isEmpty()) {
                     for (User userData : userList) {
+                        if (isAdmin && userData.getRole().toString().equalsIgnoreCase(Role.user.toString())) {
+                            continue;
+                        }
                         String bookInfo = String.format("|%-10s |%-20s | %-30s | %-15s | %-10s | %-10s  |%n",
-                                index.getAndIncrement()+1, userData.getName(), userData.getEmail(), userData.getRole(),(Objects.isNull(userData.getBorrowedBooks())? "0" :userData.getBorrowedBooks().size()) ,userData.getDateOfJoining());
+                                index.getAndIncrement() + 1, userData.getName(), userData.getEmail(), userData.getRole(), (userData.getRole() == Role.user) ?
+                                        (Objects.isNull(userData.getBorrowedBooks()) ? "0" : userData.getBorrowedBooks().size()) : " ", userData.getDateOfJoining());
                         System.out.println(bookInfo);
                     }
                 } else {
                     System.out.println("No user Found");
                 }
             }
-
-
         } catch (Exception e) {
             System.out.println("something went wrong..");
         }
@@ -283,6 +283,7 @@ public class DashBoardAdmin extends AbstractUi {
     private void removeAdmin(User user) {
         try {
             while (true) {
+                displayUser(true);
                 System.out.println("Enter a Email of user (enter b for go to back menu ):");
                 String email = sc.nextLine();
                 if (email.equalsIgnoreCase("b")) return;
@@ -290,14 +291,13 @@ public class DashBoardAdmin extends AbstractUi {
                     System.out.println(" ");
                     System.err.println("user and delete user should not be same");
                     System.out.println(" ");
-                    return;
+                    continue;
                 }
                 if (email.isEmpty()) {
                     System.err.println("filed should not be empty");
                 } else {
                     Response response = adminService.removeAdmin(email);
                     System.out.println(response.getMessage());
-                    break;
                 }
 
             }
@@ -316,6 +316,8 @@ public class DashBoardAdmin extends AbstractUi {
             System.out.println("Enter a Book Category : ");
             displayCategoryEnumValue();
             String category = sc.next();
+            System.out.println("Enter a Book edition eg.1,2..: ");
+            int edition = sc.nextInt();
             if (Arrays.stream(BookCategory.values()).noneMatch(enums -> enums.toString().equalsIgnoreCase(category))) {
                 sc.nextLine();
                 System.out.println(" ");
@@ -323,10 +325,10 @@ public class DashBoardAdmin extends AbstractUi {
             }
             System.out.println("Enter a Book Copy : ");
             int copy = sc.nextInt();
-            Book book =  Book.builder().
+            Book book = Book.builder().
                     name(bookName).author(bookAuthor).
                     category(BookCategory.valueOf(category.toUpperCase().trim())).
-                    numberOfCopyAvailable(copy).
+                    totalNumberOfCopy(copy).edition(edition).
                     build();
             Response bookResponse = bookService.addBook(book);
             System.out.println(bookResponse.getMessage());
@@ -343,59 +345,54 @@ public class DashBoardAdmin extends AbstractUi {
         System.out.println("]");
     }
 
-    //delete book
     private void removeBook() {
-        try {
-            while (true) {
-                displayBook(true);
-                System.out.println("Enter a book id to delete (enter b to back to menu ):");
-                String bookId = sc.nextLine().trim();
-                if (bookId.equalsIgnoreCase("b")) return;
-                System.out.println("do you want to delete all copy y/n:");
-                String allCopy = sc.next().trim();
-                if (!bookId.isEmpty() || !allCopy.isEmpty()) {
-                    if (allCopy.equalsIgnoreCase("y")) {
-                        Response response = bookService.deleteBook(bookId, 0, true);
-                        System.out.println(response.getMessage());
-                        sc.nextLine();
+        while (true) {
+            try {
+                Map<Integer, Book> bookMap = displayBook();
+                System.out.println("Enter a book id to delete (enter -1 to back to menu ):");
+                int bookId = sc.nextInt();
+                if (bookId == -1) return;
+                if (bookId > -1) {
+                    Book book = bookMap.get(bookId);
+                    Response response = bookService.deleteBook(book);
+                    if (response.getStatusCode().toString().equalsIgnoreCase(ResponseStatus.SUCCESS.toString())) {
+                        System.out.println("Book delete successfully...");
                     } else {
-                        System.out.println("Enter a how many copy want to delete :");
-                        int noCopy = sc.nextInt();
-                        Response response = bookService.deleteBook(bookId, noCopy, false);
-                        System.out.println(response.getMessage());
-                        sc.nextLine();
+                        System.out.println("Book delete failed try again");
                     }
-                } else {
-                    System.out.println("filed should not be empty : ");
                     sc.nextLine();
+                } else {
+                    System.err.println("enter a id properly...");
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("enter a proper input ");
+                sc.nextLine();
             }
-        } catch (InputMismatchException e) {
-            System.out.println("enter a proper input ");
         }
     }
 
-    private void displayBook(boolean isForRemove) {
+    private Map<Integer, Book> displayBook() {
         System.out.println(" ");
         System.out.println("+----------------+--------------------+------------+----------------+--------------------------------------------");
         System.out.println(String.format("|%-10s |%-30s | %-25s | %-28s | %-20s |", "BookId", "Name", "Category", "Author", "Copies Available"));
         System.out.println("+----------------+--------------------+------------+----------------+---------------------------------------------");
         Object bookObject = bookService.fetchBooks().getResponseObject();
-        List<Book> books = null;
+        List<Book> books;
+        Map<Integer, Book> bookMap = new HashMap<>();
         if (bookObject instanceof List<?>) {
             books = (List<Book>) bookObject;
-        }
-        AtomicInteger index = new AtomicInteger();
-        if (Objects.nonNull(books) && !books.isEmpty()) {
-            for (Book book : books) {
-                String bookInfo = String.format("|%-10s |%-30s | %-25s | %-28s | %-20s |",
-                        index.getAndIncrement()+1, book.getName(), book.getCategory(), book.getAuthor(), book.getNumberOfCopyAvailable());
+            AtomicInteger index = new AtomicInteger();
+            books.forEach(book -> bookMap.put(index.getAndIncrement(), book));
+            bookMap.forEach((key1, value) -> {
+                String bookInfo = String.format("|%-10s |%-30s | %-25s | %-28s | %-20s |"
+                        , key1, value.getName(), value.getCategory(), value.getAuthor(), value.getNumberOfCopyAvailable());
                 System.out.println(bookInfo);
-            }
+            });
         } else {
             System.out.println("No Book Found");
         }
         System.out.println(" ");
+        return bookMap;
     }
 
 //
@@ -404,24 +401,25 @@ public class DashBoardAdmin extends AbstractUi {
         try {
             Object response = userService.fetchUser().getResponseObject();
             if (Objects.nonNull(response)) {
-                System.out.println("+----------------+--------------------+------------+----------------+----------");
-                System.out.println(String.format("| %-15s |%-32s | %-15s ", "Id", "user", "Total Book Borrowed"));
-                System.out.println("+----------------+--------------------+------------+----------------+-----------");
-                List<User> userList = null;
                 while (true) {
+                    List<User> userList = null;
                     if (response instanceof List<?>) {
                         userList = (List<User>) response;
+                        System.out.println("******************************************************user record***********************************************************************************************************");
+                        System.out.println("+----------------+--------------------+------------+----------------+-----------------------------------------------------");
+                        System.out.println(String.format("| %-15s |%-32s |%-32s | %-15s ", "Id", "user", "email", "Total Book Borrowed"));
+                        System.out.println("+----------------+--------------------+------------+----------------+------------------------------------------------------");
                         AtomicInteger index = new AtomicInteger();
                         userList.stream().filter(adminUser -> adminUser.getRole().toString().equalsIgnoreCase("user")).forEach(user -> {
-                            String bookInfo = String.format("| %-15s |%-32s | %-15s ",
-                                    index.getAndIncrement()+1, user.getName(), user.getBorrowedBooks().size());
+                            String bookInfo = String.format("| %-15s |%-32s  |%-32s  | %-15s ",
+                                    index.getAndIncrement(), user.getName(), user.getEmail(), user.getTotalBookBorrowed());
                             System.out.println(bookInfo);
                         });
                     }
                     System.out.println("want to see user detail enter y (back tom menu b): ");
                     String isWantDetail = sc.nextLine().trim();
                     if (isWantDetail.equalsIgnoreCase("b")) return;
-                    detailRecordOfUserBorredBook(isWantDetail, userList);
+                    detailRecordOfUserBorrowedBook(isWantDetail, userList);
                 }
             } else {
                 System.out.println("not have any record");
@@ -432,83 +430,42 @@ public class DashBoardAdmin extends AbstractUi {
         }
     }
 
-    private void detailRecordOfUserBorredBook(String isWantDetail, List<User> userList) {
+    private void detailRecordOfUserBorrowedBook(String isWantDetail, List<User> userList) {
         if (isWantDetail.equalsIgnoreCase("y")) {
             System.out.println("Enter a userId : ");
             String userId = sc.nextLine();
             if (Objects.nonNull(userList) && userList.size() > Integer.parseInt(userId)) {
-                User user = userList.get(Integer.parseInt(userId));
-                UserBookBorrowedDetail(user.getId());
+                User user = userList.get(Integer.parseInt(userId) + 1);
+                System.out.println(Integer.parseInt(userId) + 1);
+                System.out.println(" ");
+                userBookBorrowedDetail(user);
             } else {
                 System.out.println("user not found");
             }
         }
     }
 
-    private void UserBookBorrowedDetail(String userId) {
-        Response borrowBook = borrowedBookService.fetchBorrowedBook();
+    private void userBookBorrowedDetail(User user) {
+        Response borrowBook = borrowedBookService.fetchBorrowedBookByUserId(user.getId());
         Object responseObject = borrowBook.getResponseObject();
-        System.out.println("+----------------+--------------------+------------+----------------+-------------------------------------------------------+----------------------------------------------------------------------------------------------+");
-        System.out.println(String.format("| %-32s | %-15s | %-15s | %-16s | %-16s  |%-16s ", "user", "Book", "Date of Borrow", "Return Date", "Fine", "Status"));
-        System.out.println("+----------------+--------------------+------------+----------------+-------------------------------------------------------+----------------------------------------------------------------------------------------------+");
-        Map<String, BookBorrowed> bookBorrowedMap = null;
-        if (responseObject instanceof Map<?, ?>) {
-            bookBorrowedMap = (Map<String, BookBorrowed>) responseObject;
-            bookBorrowedMap.entrySet().stream().filter(user -> user.getValue().getUserId().equalsIgnoreCase(userId)).forEach(bookPrint -> {
-                String bookInfo = String.format("| %-32s | %-15s | %-15s | %-16s | %-16s  |%-16s ",
-                        bookPrint.getValue().getUser().getName(), bookPrint.getValue().getBook().getName(), bookPrint.getValue().getBorrowDate(), bookPrint.getValue().getReturnDate(), bookPrint.getValue().getFine(), bookPrint.getValue().getStatus());
+        System.out.println("******************************************************User detailed Record******************************************************************");
+        System.out.println("+----------------+--------------------+------------+----------------+-------------------------------------------------------+--------------+");
+        System.out.println(String.format("| %-22s | %-32s | %-15s | %-16s | %-16s  |%-16s ", "user", "Book", "Date of Borrow", "Return Date", "Fine", "Status"));
+        System.out.println("+----------------+--------------------+------------+----------------+-------------------------------------------------------+----------------+");
+        List<BookBorrowed> bookBorrowedMap = null;
+        if (responseObject instanceof List<?>) {
+            bookBorrowedMap = (List<BookBorrowed>) responseObject;
+            bookBorrowedMap.stream().filter(userData -> userData.getUserId().equalsIgnoreCase(user.getId())).forEach(bookPrint -> {
+                String bookInfo = String.format("| %-22s | %-32s | %-15s | %-16s | %-16s  |%-16s ",
+                        user.getName(), bookPrint.getBook().getName(), bookPrint.getBorrowDate(), bookPrint.getReturnDate(), bookPrint.getFine(), bookPrint.getStatus());
                 System.out.println(bookInfo);
+
             });
+        } else {
+            System.out.println("no record found");
         }
+        System.out.println(" ");
     }
-
-
-    //   private void checkSerialNumberOfBook(String bookId, List<Book> bookList) {
-//        System.out.println("+----------------+--------------------+------------+----------------+--------------------------------------------");
-//        System.out.println(String.format("|%-10s |%-30s | %-25s | %-28s |", "BookId", "Name", "Author", "Serial Number"));
-//        System.out.println("+----------------+--------------------+------------+----------------+---------------------------------------------");
-//        Book book = bookList.get(Integer.parseInt(bookId));
-//        if (Objects.nonNull(book)) {
-//            int pageSize = 5;
-//            int currentIndex = 0;
-//            List<String> allSerialNumber = book.getAllSerialNumber();
-//            String bookInfo = String.format("|%-10s |%-30s | %-28s | %-20s |",
-//                    bookId, book.getName(), book.getAuthor(), book.getSerialNumber());
-//            System.out.println(bookInfo);
-//            while (currentIndex < allSerialNumber.size()) {
-//                allSerialNumber.stream().
-//                        skip(currentIndex).
-//                        limit(pageSize).
-//                        forEach(bookDisplay -> {
-//                            String bookInfoSerial = String.format("|%-10s |%-30s | %-28s | %-20s |",
-//                                    "", "", "", bookDisplay);
-//                            System.out.println(bookInfoSerial);
-//                        });
-//
-//                currentIndex += pageSize;
-//                if (currentIndex < allSerialNumber.size()) {
-//                    System.out.println("Do you want to see more record Y/N :");
-//                    String input = sc.nextLine();
-//                    if (input.equalsIgnoreCase("n")) {
-//                        break;
-//                    }
-//                }
-//            }
-//            System.out.println("No more record to display...");
-//        }
-//    }
-//          if (!isForRemove) {
-//        displayOption(Li"Enter 1 check the serial number  : ","Enter 2 for update the book: ");
-//
-//
-//        String input = sc.nextLine();
-//        if (input.equalsIgnoreCase("y")) {
-//            System.out.println("Enter a bookId : ");
-//            String bookId = sc.nextLine();
-//            checkSerialNumberOfBook(bookId, books);
-//        }
-//    }
-
 }
 
 

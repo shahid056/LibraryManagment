@@ -19,7 +19,7 @@ public interface UserDao {
 
     Optional<User> fetchUserByEmail(String email) throws SQLException;
 
-    User removeAdmin(String email) throws Exception;
+    boolean removeAdmin(String email) throws Exception;
 
     List<Book> userBorrowedBook(String userId) throws Exception;
 

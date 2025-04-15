@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookService {
     Response addBook(Book book);
 
-    Response deleteBook(String srNo, int noOfCopy,boolean deleteAllCopy);
+    Response deleteBook(Book book);
 
     Response updateBook(Book book,String columnName);
 

@@ -10,5 +10,7 @@ public interface BorrowedBookService {
 
      Response returnBook(Book book, User user);
 
-     Response fetchBorrowedBook();
+     Response fetchBorrowedBookByUserId(String userId);
+
+     Response fetchBorrowedBookById();
 }

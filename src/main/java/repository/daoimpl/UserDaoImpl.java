@@ -80,15 +80,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User removeAdmin(String email) throws Exception {
-        try {
-            User user = usersDb.get(email);
-            if (user.getRole().toString().equalsIgnoreCase(Role.admin.toString())) {
-                return usersDb.remove(email);
-            }
-            return null;
-        } catch (Exception e) {
-            throw new Exception(e);
+    public boolean removeAdmin(String email) throws Exception {
+        String deleteUser = "delete from users where email = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(deleteUser)){
+            preparedStatement.setString(1,email);
+            return preparedStatement.executeUpdate()>0;
+        }catch (SQLException e){
+            throw new SQLException(e);
         }
     }
 
@@ -111,7 +109,7 @@ public class UserDaoImpl implements UserDao {
         try (Statement statement = connection.createStatement();
              ResultSet userData = statement.executeQuery(fetchQuery);
         ){
-            return (Optional<List<User>>) ResultUtility.getUserFromResultSet(userData, false);
+            return ResultUtility.getUserFromResultSet(userData, false);
         }catch (SQLException e){
             throw new SQLException(e);
         }

@@ -126,9 +126,9 @@ public class UserServiceImpl implements UserService {
     public Response removeUser(User user) {
         Response response;
         try {
-            User userRes = userDao.removeAdmin(user.getEmail());
-            if (Objects.nonNull(userRes)) {
-                response = Response.builder().responseObject(userRes).message("user delete successful..").statusCode(ResponseStatus.SUCCESS).build();
+            boolean userRes = userDao.removeAdmin(user.getEmail());
+            if (Boolean.TRUE.equals(userRes)) {
+                response = Response.builder().responseObject(user).message("user delete successful..").statusCode(ResponseStatus.SUCCESS).build();
             } else {
                 response = Response.builder().message("user not found..").statusCode(ResponseStatus.Error).build();
             }
