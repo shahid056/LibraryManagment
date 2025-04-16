@@ -37,6 +37,7 @@ public class DashBoardAdmin extends AbstractUi {
         this.updateUser = updateUser;
     }
 
+
     //admin
     public void adminScreen(User user) {
         boolean isExit = true;

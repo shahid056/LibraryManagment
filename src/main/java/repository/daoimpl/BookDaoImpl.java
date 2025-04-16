@@ -46,7 +46,7 @@ public class BookDaoImpl implements repository.dao.BookDao {
                 return getBookByNameAuthor(book.getName(), book.getAuthor());
             }
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new RuntimeException(e);
         }
         return Optional.empty();
     }
@@ -124,7 +124,7 @@ public class BookDaoImpl implements repository.dao.BookDao {
             ResultSet resultSet = statement.executeQuery();
             return ResultUtility.getBookFromResultSet(resultSet).map(List::getFirst);
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,23 +1,22 @@
 package userInterface.common;
 
-import model.Book;
+
 import enums.BookCategory;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import service.BookService;
 
 import java.util.List;
 
 @Slf4j
 @NoArgsConstructor
 public class BookData {
-
-    private BookService bookService;
-
-    public BookData(BookService bookService) {
-        this.bookService = bookService;
-    }
-
+//
+//    private BookService bookService;
+//
+//    public BookData(BookService bookService) {
+//        this.bookService = bookService;
+//    }
+//
 //     List<Book> books = List.of(
 //            new Book.BookBuilder().setName("The Great Adventure").setAuthor("John Doe").setCategory(BookCategory.valueOf("FICTION")).setNumberOfCopy(12).build(),
 //            new Book.BookBuilder().setName(
@@ -37,8 +36,8 @@ public class BookData {
 //            new Book.BookBuilder().setName(
 //                    "The Psychology of Motivation").setAuthor("Daniel Goleman").setCategory(BookCategory.valueOf("PSYCHOLOGY")).setNumberOfCopy(10).build()
 //    );
-
-
+//
+//
 //    public  void loadBookData() {
 //        try {
 //            books.forEach(book -> bookService.addBook(new Book.BookBuilder().

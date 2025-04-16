@@ -3,7 +3,6 @@ package userInterface.dashboard;
 import model.Book;
 import model.BookBorrowed;
 import model.User;
-import enums.ResponseStatus;
 import service.BookService;
 import service.BorrowedBookService;
 import service.UserService;
@@ -17,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DashboardUser extends AbstractUi {
     static Scanner sc = new Scanner(System.in);
-
 
     private final BookService bookService;
     private final UserService userService;
@@ -103,7 +101,7 @@ public class DashboardUser extends AbstractUi {
         Map<Integer, Book> bookMap = displayBorrowedBook(user);
         while (true) {
             try {
-                if(bookMap.isEmpty()){
+                if (bookMap.isEmpty()) {
                     System.err.println("no book found");
                     return;
                 }
@@ -124,43 +122,43 @@ public class DashboardUser extends AbstractUi {
         }
     }
 
-private Map<Integer, Book> displayBorrowedBook(User user) {
-    Object response = userService.userBorrowedBook(user).getResponseObject();
-    if (response instanceof List<?> book) {
-        List<Book> books = (List<Book>) book;
-        if (Boolean.FALSE.equals(books.isEmpty())) {
-            return displayBooks(books, true, true);
-        } else {
-            System.out.println("you don't have any book to return");
+    private Map<Integer, Book> displayBorrowedBook(User user) {
+        Object response = userService.userBorrowedBook(user).getResponseObject();
+        if (response instanceof List<?> book) {
+            List<Book> books = (List<Book>) book;
+            if (Boolean.FALSE.equals(books.isEmpty())) {
+                return displayBooks(books, true, true);
+            } else {
+                System.out.println("you don't have any book to return");
+            }
         }
+        return Collections.emptyMap();
     }
-    return Collections.emptyMap();
-}
 
-private Map<Integer, Book> displayBooks(List<Book> book, boolean hideCopy, boolean isPrint) {
-    System.out.println(" ");
-    Map<Integer, Book> bookMap = new HashMap<>();
-    if (isPrint) {
-        System.out.println("+----------------+--------------------+------------+----------------+--------------------------------------------");
-        System.out.println(String.format("|%-10s |%-30s | %-25s | %-28s |" + (hideCopy ? " " : "| %-20s |"), "BookId", "Name", "Category", "Author", (hideCopy ? " " : "Copies Available")));
-        System.out.println("+----------------+--------------------+------------+----------------+---------------------------------------------");
-        if (Objects.nonNull(book) && !book.isEmpty()) {
-            AtomicInteger index = new AtomicInteger();
+    private Map<Integer, Book> displayBooks(List<Book> book, boolean hideCopy, boolean isPrint) {
+        System.out.println(" ");
+        Map<Integer, Book> bookMap = new HashMap<>();
+        if (isPrint) {
+            System.out.println("+----------------+--------------------+------------+----------------+--------------------------------------------");
+            System.out.println(String.format("|%-10s |%-30s | %-25s | %-28s |" + (hideCopy ? " " : "| %-20s |"), "BookId", "Name", "Category", "Author", (hideCopy ? " " : "Copies Available")));
+            System.out.println("+----------------+--------------------+------------+----------------+---------------------------------------------");
+            if (Objects.nonNull(book) && !book.isEmpty()) {
+                AtomicInteger index = new AtomicInteger();
 
-            book.forEach(books ->
-                    bookMap.put(index.getAndIncrement() + 1, books)
-            );
-            bookMap.entrySet().forEach(bookPrint -> {
-                String bookInfo = String.format("|%-10s |%-30s | %-25s | %-28s |" + (hideCopy ? " " : "| %-20s |"),
-                        bookPrint.getKey(), bookPrint.getValue().getName(), bookPrint.getValue().getCategory(), bookPrint.getValue().getAuthor(), (hideCopy ? " " : bookPrint.getValue().getNumberOfCopyAvailable()));
-                System.out.println(bookInfo);
-            });
-        } else {
-            System.out.println("No Book Found");
+                book.forEach(books ->
+                        bookMap.put(index.getAndIncrement() + 1, books)
+                );
+                bookMap.entrySet().forEach(bookPrint -> {
+                    String bookInfo = String.format("|%-10s |%-30s | %-25s | %-28s |" + (hideCopy ? " " : "| %-20s |"),
+                            bookPrint.getKey(), bookPrint.getValue().getName(), bookPrint.getValue().getCategory(), bookPrint.getValue().getAuthor(), (hideCopy ? " " : bookPrint.getValue().getNumberOfCopyAvailable()));
+                    System.out.println(bookInfo);
+                });
+            } else {
+                System.out.println("No Book Found");
+            }
         }
+        System.out.println(" ");
+        return bookMap;
     }
-    System.out.println(" ");
-    return bookMap;
-}
 
 }

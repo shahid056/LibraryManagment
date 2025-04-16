@@ -110,3 +110,23 @@ Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violate
 	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
 	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:52)
 	... 9 common frames omitted
+2025-04-15 19:47:56 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
+	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
+	at userInterface.Home.validateUser(Home.java:98)
+	at userInterface.Home.homeScreen(Home.java:32)
+	at Main.main(Main.java:11)
+2025-04-15 19:55:56 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
+	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
+	at userInterface.Home.validateUser(Home.java:98)
+	at userInterface.Home.homeScreen(Home.java:32)
+	at Main.main(Main.java:11)

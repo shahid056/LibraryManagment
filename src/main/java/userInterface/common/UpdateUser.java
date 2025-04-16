@@ -1,6 +1,6 @@
 package userInterface.common;
 
-import enums.ResponseStatus;
+
 import model.User;
 import service.UserService;
 import userInterface.AbstractUi;
@@ -57,10 +57,8 @@ public class UpdateUser {
         System.out.println("Enter a name :");
         String name = sc.nextLine();
         user.setName(name);
-        Response response = userService.updateUser(user,"user_name");
-        System.out.println(" ");
+        Response response = userService.updateUser(user,"name");
         System.out.println(response.getMessage());
-        System.out.println(" ");
         System.out.println(user);
     }
 
@@ -70,23 +68,14 @@ public class UpdateUser {
         if (Objects.nonNull(oldEmail)) {
             String newEmail = takeValidEmail("Enter a new email: ");
             if (user.getEmail().equalsIgnoreCase(oldEmail)) {
-                Response response1 = userService.checkUserPrentOrNot(newEmail);
-                if(response1.getStatusCode() == ResponseStatus.SUCCESS){
-                    System.out.println(" ");
-                    System.err.println(newEmail + " email already exist");
-                    System.out.println(" ");
-                    System.out.println(user);
-                }else {
-                    user.setEmail(newEmail);
-                    Response response = userService.updateUser(user,"email");
-                    System.out.println(response.getMessage());
-                    System.out.println(user);
-                }
+                user.setEmail(newEmail);
+                Response response = userService.updateUser(user,"email");
+                System.out.println(response.getMessage());
+                System.out.println(user);
             } else {
                 System.out.println(" ");
                 System.err.println("old Email not match");
                 System.out.println(" ");
-                System.out.println(user);
             }
         } else {
             System.out.println(" ");

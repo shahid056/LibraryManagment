@@ -4,15 +4,12 @@ import enums.Role;
 import model.User;
 import repository.dao.BookDao;
 import repository.dao.BorrowDao;
-import repository.dao.SerialNumberDao;
 import repository.dao.UserDao;
 import repository.daoimpl.BookDaoImpl;
 import repository.daoimpl.BorrowDaoImpl;
-import repository.daoimpl.SerialNumberDaoImpl;
 import repository.daoimpl.UserDaoImpl;
 import service.*;
 import serviceImpl.*;
-import userInterface.common.BookData;
 import userInterface.common.UpdateUser;
 import userInterface.dashboard.DashBoardAdmin;
 import userInterface.dashboard.DashboardUser;
@@ -26,28 +23,16 @@ import java.util.Scanner;
 
 public class Home extends AbstractUi {
     static Scanner sc = new Scanner(System.in);
-
-    Connection connection = ConnectionDb.connectionDataBase();
-    BookDao bookDao = new BookDaoImpl(connection);
-    UserDao userDao = new UserDaoImpl(connection);
-    SerialNumberDao serialNumberDao = new SerialNumberDaoImpl(connection);
-    BorrowDao borrowDao = new BorrowDaoImpl(connection);
-
-    UserService userService = new UserServiceImpl(userDao);
-    AuthenticationService authenticationService = new AuthenticationServiceImpl(userService);
-    BookService bookService = new BookServiceImpl(bookDao);
-    AdminService adminService = new AdminServiceImpl(userService);
-    SerialNumberService serialNumberService = new SerialNumberServiceImpl(serialNumberDao);
-    BorrowedBookService borrowedBookService = new BorrowedBookServiceImpl(borrowDao, bookService);
-
-    UpdateUser updateUser = new UpdateUser(userService);
-
-    BookData bookData = new BookData(bookService);
-
-    public Home() {
-        BookData bookData1 = new BookData(bookService);
-        //bookData1.loadBookData();
-    }
+    private final Connection connection = ConnectionDb.connectionDataBase();
+    protected final BookDao bookDao = new BookDaoImpl(connection);
+    protected final UserDao userDao = new UserDaoImpl(connection);
+    protected final BorrowDao borrowDao = new BorrowDaoImpl(connection);
+    protected final UserService userService = new UserServiceImpl(userDao);
+    protected final AuthenticationService authenticationService = new AuthenticationServiceImpl(userService);
+    protected final BookService bookService = new BookServiceImpl(bookDao);
+    protected final AdminService adminService = new AdminServiceImpl(userService);
+    protected final BorrowedBookService borrowedBookService = new BorrowedBookServiceImpl(borrowDao, bookService);
+    protected final UpdateUser updateUser = new UpdateUser(userService);
 
     static {
         System.out.println("*********************************Welcome****************************************************");
