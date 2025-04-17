@@ -1,5 +1,6 @@
 package userInterface.dashboard;
 
+import enums.ResponseStatus;
 import model.Book;
 import model.BookBorrowed;
 import model.User;
@@ -29,7 +30,7 @@ public class DashboardUser extends AbstractUi {
         this.updateUser = updateUser;
     }
 
-
+    @Override
     public void userScreen(User user) {
         boolean isExit = true;
         while (isExit) {
@@ -58,6 +59,9 @@ public class DashboardUser extends AbstractUi {
             }
         }
     }
+
+    @Override
+    public void adminScreen(User user) {}
 
     private Map<Integer, Book> displayAllBook() {
         Object bookObject = bookService.fetchBooks().getResponseObject();
@@ -93,6 +97,7 @@ public class DashboardUser extends AbstractUi {
                 System.out.println(response.getMessage());
             } catch (Exception e) {
                 System.err.println("Please enter proper inputs ");
+                sc.nextLine();
             }
         }
     }
@@ -109,15 +114,20 @@ public class DashboardUser extends AbstractUi {
                 int bookId = sc.nextInt();
                 if (bookId == -1) break;
                 Book book = bookMap.get(bookId);
-                Response response = borrowedBookService.returnBook(book, user);
-                System.out.println(response.getMessage());
-                bookMap = displayBorrowedBook(user);
-                if (bookMap.isEmpty()) {
-                    System.err.println("don't have any book to return");
-                    return;
+                if(bookMap.size()>bookId){
+                    Response response = borrowedBookService.returnBook(book, user);
+                    System.out.println(response.getMessage());
+                    bookMap = displayBorrowedBook(user);
+                    if (bookMap.isEmpty()) {
+                        System.err.println("don't have any book to return");
+                        return;
+                    }
+                }else {
+                    System.err.println("Book not found...");
                 }
             } catch (Exception e) {
                 System.err.println("Please enter proper inputs ");
+                sc.nextLine();
             }
         }
     }

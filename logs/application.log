@@ -1,132 +1,314 @@
-2025-04-15 13:15:06 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+2025-04-17 10:45:41 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
 java.util.NoSuchElementException: null
 	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
 	at java.base/java.util.Optional.map(Optional.java:260)
 	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
 	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
 	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
-	at userInterface.Home.validateUser(Home.java:133)
-	at userInterface.Home.homeScreen(Home.java:67)
-	at Main.main(Main.java:11)
-2025-04-15 14:47:46 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
-java.util.NoSuchElementException: null
-	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
-	at java.base/java.util.Optional.map(Optional.java:260)
-	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
-	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
-	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
-	at userInterface.Home.validateUser(Home.java:133)
-	at userInterface.Home.homeScreen(Home.java:67)
-	at Main.main(Main.java:11)
-2025-04-15 14:51:47 [main] ERROR serviceImpl.UserServiceImpl - something went wrong at user add 
-java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
-	at repository.daoimpl.UserDaoImpl.add(UserDaoImpl.java:35)
-	at serviceImpl.UserServiceImpl.addUser(UserServiceImpl.java:27)
-	at serviceImpl.AuthenticationServiceImpl.userRegistration(AuthenticationServiceImpl.java:27)
-	at userInterface.Home.validateUser(Home.java:125)
-	at userInterface.Home.homeScreen(Home.java:68)
-	at Main.main(Main.java:11)
-Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
-	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
-	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
-	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
-	at repository.daoimpl.UserDaoImpl.add(UserDaoImpl.java:33)
-	... 5 common frames omitted
-2025-04-15 14:52:33 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong  while inserting user..
-java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
-	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:54)
+	at userInterface.Home.loginValidator(Home.java:125)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 10:48:15 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong  while inserting user..
+java.lang.Exception: Column not match
+	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:44)
 	at serviceImpl.UserServiceImpl.updateUser(UserServiceImpl.java:45)
-	at userInterface.common.UpdateUser.emailUpdate(UpdateUser.java:73)
+	at userInterface.common.UpdateUser.nameUpdate(UpdateUser.java:60)
 	at userInterface.common.UpdateUser.updateData(UpdateUser.java:48)
 	at userInterface.common.UpdateUser.updateUser(UpdateUser.java:37)
-	at userInterface.dashboard.DashboardUser.profileView(DashboardUser.java:77)
-	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:54)
-	at userInterface.Home.isLoginUser(Home.java:83)
-	at userInterface.Home.homeScreen(Home.java:67)
-	at Main.main(Main.java:11)
-Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
-	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
-	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
-	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
-	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:52)
-	... 9 common frames omitted
-2025-04-15 14:58:16 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong  while inserting user..
-java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
-	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:54)
+	at userInterface.dashboard.DashboardUser.profileView(DashboardUser.java:78)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:52)
+	at userInterface.Home.isLoginUser(Home.java:75)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 11:16:09 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
+	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
+	at userInterface.Home.loginValidator(Home.java:125)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 11:31:27 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
+	at serviceImpl.AdminServiceImpl.addUserByAdmin(AdminServiceImpl.java:24)
+	at userInterface.dashboard.DashBoardAdmin.addAdmin(DashBoardAdmin.java:277)
+	at userInterface.dashboard.DashBoardAdmin.isSuperAdmin(DashBoardAdmin.java:93)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:77)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 11:34:40 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.fetchUserByEmail(UserServiceImpl.java:78)
+	at serviceImpl.AdminServiceImpl.removeAdmin(AdminServiceImpl.java:41)
+	at userInterface.dashboard.DashBoardAdmin.removeAdmin(DashBoardAdmin.java:303)
+	at userInterface.dashboard.DashBoardAdmin.isSuperAdmin(DashBoardAdmin.java:95)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:78)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 11:41:01 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
+java.util.NoSuchElementException: null
+	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
+	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
+	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
+	at userInterface.Home.loginValidator(Home.java:125)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 11:42:11 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong  while inserting user..
+java.lang.Exception: Column not match
+	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:44)
 	at serviceImpl.UserServiceImpl.updateUser(UserServiceImpl.java:45)
-	at userInterface.common.UpdateUser.emailUpdate(UpdateUser.java:76)
-	at userInterface.common.UpdateUser.updateData(UpdateUser.java:49)
+	at userInterface.common.UpdateUser.nameUpdate(UpdateUser.java:60)
+	at userInterface.common.UpdateUser.updateData(UpdateUser.java:48)
+	at userInterface.common.UpdateUser.updateUser(UpdateUser.java:37)
+	at userInterface.dashboard.DashboardUser.profileView(DashboardUser.java:78)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:52)
+	at userInterface.Home.isLoginUser(Home.java:75)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 11:43:01 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong  while inserting user..
+java.lang.Exception: Column not match
+	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:44)
+	at serviceImpl.UserServiceImpl.updateUser(UserServiceImpl.java:45)
+	at userInterface.common.UpdateUser.nameUpdate(UpdateUser.java:60)
+	at userInterface.common.UpdateUser.updateData(UpdateUser.java:48)
 	at userInterface.common.UpdateUser.updateUser(Unknown Source)
-	at userInterface.dashboard.DashboardUser.profileView(DashboardUser.java:77)
-	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:54)
-	at userInterface.Home.isLoginUser(Home.java:83)
-	at userInterface.Home.homeScreen(Home.java:67)
-	at Main.main(Main.java:11)
-Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
-	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
-	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
-	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
-	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:52)
-	... 9 common frames omitted
-2025-04-15 14:58:58 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong  while inserting user..
-java.sql.SQLException: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
-	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:54)
+	at userInterface.dashboard.DashboardUser.profileView(DashboardUser.java:78)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:52)
+	at userInterface.Home.isLoginUser(Home.java:75)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 11:48:51 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong  while inserting user..
+java.lang.Exception: Column not match
+	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:44)
 	at serviceImpl.UserServiceImpl.updateUser(UserServiceImpl.java:45)
-	at userInterface.common.UpdateUser.emailUpdate(UpdateUser.java:76)
-	at userInterface.common.UpdateUser.updateData(UpdateUser.java:49)
-	at userInterface.common.UpdateUser.updateUser(UpdateUser.java:38)
-	at userInterface.dashboard.DashboardUser.profileView(DashboardUser.java:77)
+	at userInterface.common.UpdateUser.nameUpdate(Unknown Source)
+	at userInterface.common.UpdateUser.updateData(Unknown Source)
+	at userInterface.common.UpdateUser.updateUser(Unknown Source)
+	at userInterface.dashboard.DashboardUser.profileView(DashboardUser.java:78)
+	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:52)
+	at userInterface.Home.isLoginUser(Home.java:75)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 12:22:34 [main] ERROR serviceImpl.BorrowedBookServiceImpl - some thing went wrong during serialNumberGenerator 
+java.lang.StringIndexOutOfBoundsException: Range [0, 2) out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions$1.apply(Preconditions.java:55)
+	at java.base/jdk.internal.util.Preconditions$1.apply(Preconditions.java:52)
+	at java.base/jdk.internal.util.Preconditions$4.apply(Preconditions.java:213)
+	at java.base/jdk.internal.util.Preconditions$4.apply(Preconditions.java:210)
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:98)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckFromToIndex(Preconditions.java:112)
+	at java.base/jdk.internal.util.Preconditions.checkFromToIndex(Preconditions.java:349)
+	at java.base/java.lang.String.checkBoundsBeginEnd(String.java:4963)
+	at java.base/java.lang.String.substring(String.java:2925)
+	at serviceImpl.BorrowedBookServiceImpl.serialNumberGenerator(BorrowedBookServiceImpl.java:67)
+	at serviceImpl.BorrowedBookServiceImpl.borrowBook(BorrowedBookServiceImpl.java:42)
+	at userInterface.dashboard.DashboardUser.bookBorrow(DashboardUser.java:95)
 	at userInterface.dashboard.DashboardUser.userScreen(DashboardUser.java:54)
-	at userInterface.Home.isLoginUser(Home.java:83)
-	at userInterface.Home.homeScreen(Home.java:67)
-	at Main.main(Main.java:11)
-Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "users_email_key"
-  Detail: Key (email)=(chetan@gmail.com) already exists.
+	at userInterface.Home.isLoginUser(Home.java:75)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+2025-04-17 16:52:13 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:62)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
-	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
-	at repository.daoimpl.UserDaoImpl.updateUser(UserDaoImpl.java:52)
-	... 9 common frames omitted
-2025-04-15 19:47:56 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
-java.util.NoSuchElementException: null
-	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
-	at java.base/java.util.Optional.map(Optional.java:260)
-	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
-	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
-	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
-	at userInterface.Home.validateUser(Home.java:98)
-	at userInterface.Home.homeScreen(Home.java:32)
-	at Main.main(Main.java:11)
-2025-04-15 19:55:56 [main] ERROR serviceImpl.UserServiceImpl - Something went wrong during fetching user
-java.util.NoSuchElementException: null
-	at java.base/java.util.ArrayList.getFirst(ArrayList.java:440)
-	at java.base/java.util.Optional.map(Optional.java:260)
-	at repository.daoimpl.UserDaoImpl.fetchUserByEmail(UserDaoImpl.java:76)
-	at serviceImpl.UserServiceImpl.checkUserPrentOrNot(UserServiceImpl.java:112)
-	at serviceImpl.AuthenticationServiceImpl.userLogin(AuthenticationServiceImpl.java:44)
-	at userInterface.Home.validateUser(Home.java:98)
-	at userInterface.Home.homeScreen(Home.java:32)
-	at Main.main(Main.java:11)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgCallableStatement.executeUpdate(PgCallableStatement.java:70)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted
+2025-04-17 16:52:22 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:62)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgCallableStatement.executeUpdate(PgCallableStatement.java:70)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted
+2025-04-17 16:55:28 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:63)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted
+2025-04-17 16:56:43 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:63)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted
+2025-04-17 17:17:03 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:63)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted
+2025-04-17 17:19:44 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:63)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted
+2025-04-17 17:23:29 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:63)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted
+2025-04-17 17:25:54 [main] ERROR serviceImpl.BookServiceImpl - Error at delete book : 
+java.lang.RuntimeException: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:63)
+	at serviceImpl.BookServiceImpl.deleteBook(BookServiceImpl.java:84)
+	at userInterface.dashboard.DashBoardAdmin.removeBook(DashBoardAdmin.java:378)
+	at userInterface.dashboard.DashBoardAdmin.adminScreen(DashBoardAdmin.java:75)
+	at userInterface.Home.isLoginUser(Home.java:78)
+	at userInterface.Home.homeScreen(Home.java:59)
+	at Main.main(Main.java:21)
+Caused by: org.postgresql.util.PSQLException: ERROR: deletebook(integer) is a procedure
+  Hint: To call a procedure, use CALL.
+  Position: 15
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgCallableStatement.executeWithFlags(PgCallableStatement.java:90)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at repository.daoimpl.BookDaoImpl.deleteBook(BookDaoImpl.java:60)
+	... 6 common frames omitted

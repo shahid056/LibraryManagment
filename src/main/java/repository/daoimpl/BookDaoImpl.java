@@ -52,12 +52,13 @@ public class BookDaoImpl implements repository.dao.BookDao {
     }
 
     @Override
-    public boolean deleteBook(Book book) throws Exception {
-        String deleteQuery = "delete from book where book_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(deleteQuery);
+    public boolean deleteBook(Book book) throws Exception { //TODO fix issue not been deleted
+      //  String deleteQuery = "delete from book where book_id = ?";
+        try (CallableStatement statement = connection.prepareCall("{call DeleteBook(?)}");
         ) {
             statement.setInt(1, Integer.parseInt(book.getBookId()));
-            return statement.executeUpdate()>0;
+            statement.execute();
+            return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -105,7 +106,7 @@ public class BookDaoImpl implements repository.dao.BookDao {
 
     @Override
     public Optional<List<Book>> getBooks() {
-        String fetchQuery = "select * from book";
+        String fetchQuery = "select * from book order by name asc";
         try (Statement statement = connection.createStatement();
              ResultSet bookData = statement.executeQuery(fetchQuery);
         ) {

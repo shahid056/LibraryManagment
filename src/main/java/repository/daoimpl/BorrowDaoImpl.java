@@ -4,10 +4,7 @@ import enums.BookCategory;
 import enums.Status;
 import model.Book;
 import model.BookBorrowed;
-import repository.dao.BookDao;
 import repository.dao.BorrowDao;
-import repository.dao.UserDao;
-import utils.ResultUtility;
 
 import java.sql.Date;
 import java.sql.*;
@@ -56,14 +53,13 @@ public class BorrowDaoImpl implements BorrowDao {
         String returnQuery = "UPDATE borrowed_book SET borrowed_status = ? WHERE book_serial_number = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(returnQuery)) {
             preparedStatement.setBoolean(1, false);
-            System.out.println(bookBorrowed.getBookSerialNumber());
             preparedStatement.setString(2, bookBorrowed.getBookSerialNumber());
             int i = preparedStatement.executeUpdate();
             System.out.println(i);
             return i > 0 ? Optional.of(bookBorrowed) : Optional.empty();
 
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -82,7 +78,6 @@ public class BorrowDaoImpl implements BorrowDao {
 
     @Override
     public List<BookBorrowed> fetchBorrowedUserId(String userId) throws SQLException {
-
         String getQuery = "select * from borrowed_book a inner join book b on b.book_id=a.book_id where a.user_id = ?;";
         List<BookBorrowed> borrowedList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(getQuery)) {
@@ -102,7 +97,7 @@ public class BorrowDaoImpl implements BorrowDao {
     }
 
     private Book setBook(ResultSet resultSet) throws SQLException {
-      return   Book.builder().bookId(resultSet.getString("book_id")).
+        return Book.builder().bookId(resultSet.getString("book_id")).
                 name(resultSet.getString("name")).
                 author(resultSet.getString("author")).edition(resultSet.getInt("edition")).category(BookCategory.valueOf(resultSet.getString("category"))).
                 totalNumberOfCopy(resultSet.getInt("total_number_of_copy")).numberOfCopyAvailable(resultSet.getInt("number_of_available_copy")).

@@ -8,7 +8,7 @@ public class ValidatorRegxUtil {
     private ValidatorRegxUtil(){}
 
     public static  boolean isEmailValid(String email){
-        String emailRex="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        String emailRex="^[A-Za-z0-9]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         Pattern pattern = Pattern.compile(emailRex);
         Matcher matcher = pattern.matcher(email);
         return  matcher.matches();

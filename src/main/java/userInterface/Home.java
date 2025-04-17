@@ -19,10 +19,9 @@ import utils.ValidatorRegxUtil;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class Home extends AbstractUi {
-    static Scanner sc = new Scanner(System.in);
     private final Connection connection = ConnectionDb.connectionDataBase();
     protected final BookDao bookDao = new BookDaoImpl(connection);
     protected final UserDao userDao = new UserDaoImpl(connection);
@@ -39,9 +38,17 @@ public class Home extends AbstractUi {
     }
 
     @Override
+    public void userScreen(User user) {}
+
+    @Override
+    public void adminScreen(User user) {
+
+    }
+
+    @Override
     public void homeScreen() {
         boolean isExit = true;
-        int choice = 0;
+        int choice;
         while (isExit) {
             try {
                 displayOption(List.of("==========================Login========================================================",
@@ -49,8 +56,8 @@ public class Home extends AbstractUi {
                         "Enter 2 for SignUp:"));
                 choice = sc.nextInt();
                 switch (choice) {
-                    case 1 -> isLoginUser(validateUser(choice));
-                    case 2 -> validateUser(choice);
+                    case 1 -> isLoginUser(loginValidator(choice));
+                    case 2 -> loginValidator(choice);
                     case -1 -> isExit = false;
                     default -> System.err.println("Invalid operation : ");
                 }
@@ -74,7 +81,7 @@ public class Home extends AbstractUi {
     }
 
     //Method to Take user inputs
-    private User validateUser(int option) {
+    private User loginValidator(int option) {
         System.out.println("************Enter a Detail****************");
         boolean isNotValid = true;
         String email = null;

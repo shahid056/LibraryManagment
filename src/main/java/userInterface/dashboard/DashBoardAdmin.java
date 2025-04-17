@@ -12,12 +12,14 @@ import service.BorrowedBookService;
 import service.UserService;
 import userInterface.AbstractUi;
 import userInterface.common.UpdateUser;
+import utils.FieldValidator;
 import utils.Response;
 import utils.ValidatorRegxUtil;
 
 import javax.management.openmbean.InvalidOpenTypeException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 public class DashBoardAdmin extends AbstractUi {
     static Scanner sc = new Scanner(System.in);
@@ -82,6 +84,10 @@ public class DashBoardAdmin extends AbstractUi {
                 default -> System.err.println("invalid operation");
             }
         }
+    }
+
+    @Override
+    public void userScreen(User user) {
     }
 
     private void isSuperAdmin(User user, int choice) {
@@ -309,41 +315,55 @@ public class DashBoardAdmin extends AbstractUi {
 
     //Add Book
     private void bookAdd() {
-        try {
-            System.out.println("Enter a Book name : ");
-            String bookName = sc.nextLine();
-            System.out.println("Enter a Book Author : ");
-            String bookAuthor = sc.nextLine();
-            System.out.println("Enter a Book Category : ");
-            displayCategoryEnumValue();
-            String category = sc.next();
-            System.out.println("Enter a Book edition eg.1,2..: ");
-            int edition = sc.nextInt();
-            if (Arrays.stream(BookCategory.values()).noneMatch(enums -> enums.toString().equalsIgnoreCase(category))) {
-                sc.nextLine();
+        while (true) {
+            try {
+                String bookName = FieldValidator.takeValidStringInput("Enter a Book name");
+                if (bookName.isBlank()) return;
+                String bookAuthor = FieldValidator.takeValidStringInput("Enter a Book Author");
+                if (bookAuthor.isBlank()) return;
+                String category=displayCategoryEnumValue();
+                if(category.isBlank())return;
+                System.out.println("Enter a Book edition (Number)(enter '0' for back to main menu):");
+                int edition = sc.nextInt();
+                if (bookName.equalsIgnoreCase("0")) return;
+                System.out.println("Enter a Number of Book Copy (enter '0' for back to main menu):");
+                int copy = sc.nextInt();
+                if (bookName.equalsIgnoreCase("0")) return;
+                Book book = Book.builder().
+                        name(bookName).author(bookAuthor).
+                        category(BookCategory.valueOf(category.toUpperCase().trim())).
+                        totalNumberOfCopy(copy).edition(edition).
+                        build();
+                Response bookResponse = bookService.addBook(book);
+                System.out.println(bookResponse.getMessage());
                 System.out.println(" ");
-                System.err.println("Enter a proper category...");
+                System.out.println("Enter 0 to back to  main menu :");
+                System.out.println("Enter 1 to add other book :");
+                int addOtherBook = sc.nextInt();
+                if (addOtherBook == 0) return;
+            } catch (InputMismatchException | IllegalArgumentException e) {
+                System.err.println("Enter a proper value :");
             }
-            System.out.println("Enter a Book Copy : ");
-            int copy = sc.nextInt();
-            Book book = Book.builder().
-                    name(bookName).author(bookAuthor).
-                    category(BookCategory.valueOf(category.toUpperCase().trim())).
-                    totalNumberOfCopy(copy).edition(edition).
-                    build();
-            Response bookResponse = bookService.addBook(book);
-            System.out.println(bookResponse.getMessage());
-        } catch (InputMismatchException | IllegalArgumentException e) {
-            System.err.println("Enter a proper value :");
         }
     }
 
-    private static void displayCategoryEnumValue() {
-        System.out.print("Categories :[");
-        for (BookCategory e : BookCategory.values()) {
-            System.out.print(e + ",");
+
+    private String displayCategoryEnumValue() {
+        while (true) {
+            System.out.print("Categories :[");
+            for (BookCategory e : BookCategory.values()) {
+                System.out.print(e + ",");
+            }
+            System.out.println("]");
+            String category = FieldValidator.takeValidStringInput("Enter a Book Category : ");
+            if(category.isBlank()) return "";
+            if (Arrays.stream(BookCategory.values()).noneMatch(enums -> enums.toString().equalsIgnoreCase(category))) {
+                System.out.println(" ");
+                System.err.println("category not found please check and renter proper category...");
+                continue;
+            }
+            return category;
         }
-        System.out.println("]");
     }
 
     private void removeBook() {
@@ -383,7 +403,7 @@ public class DashBoardAdmin extends AbstractUi {
         if (bookObject instanceof List<?>) {
             books = (List<Book>) bookObject;
             AtomicInteger index = new AtomicInteger();
-            books.forEach(book -> bookMap.put(index.getAndIncrement(), book));
+            books.forEach(book -> bookMap.put(index.getAndIncrement() + 1, book));
             bookMap.forEach((key1, value) -> {
                 String bookInfo = String.format("|%-10s |%-30s | %-25s | %-28s | %-20s |"
                         , key1, value.getName(), value.getCategory(), value.getAuthor(), value.getNumberOfCopyAvailable());
