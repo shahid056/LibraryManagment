@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Response removeAdmin(String email) {
-        Response response = new Response();
+        Response response ;
         try {
             Object user = userService.fetchUserByEmail(email).getResponseObject();
             if (Objects.nonNull(user) && user instanceof User userData) {
