@@ -262,6 +262,11 @@ public class DashBoardAdmin extends AbstractUi {
             while (true) {
                 System.out.println("Enter a Email of user (enter b for back to main menu):");
                 String email = sc.nextLine().trim().toLowerCase();
+                Response response1 = userService.fetchUserByEmail(email);
+                if(response1.getStatusCode() == ResponseStatus.SUCCESS){
+                    System.err.println("email already exist...");
+                    continue;
+                }
                 if (email.equalsIgnoreCase("b")) return;
                 if (!ValidatorRegxUtil.isEmailValid(email)) {
                     System.err.println("Enter a valid email...");
